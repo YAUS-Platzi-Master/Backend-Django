@@ -1,8 +1,9 @@
 """ Settings of YAUS Project"""
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
@@ -76,8 +77,13 @@ WSGI_APPLICATION = 'YAUS.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'd1q7fco1bj2t7k',
+        'USER': 'bzkcnoarxfnwoy',
+        'PASSWORD': '844e218b3a5c3baaf1802567961a80d6e4c8e31b5870bc03ef8d58014fb362a1',
+        'HOST':'ec2-107-20-104-234.compute-1.amazonaws.com',
+        'PORT':'5432',
+        'CONN_MAX_AGE': 10,
     }
 }
 
