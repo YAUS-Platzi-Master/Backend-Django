@@ -5,6 +5,17 @@ from rest_framework import serializers
 #Models
 from .models import SetUrl, Hit, UserProfile
 
+#Django model
+from django.contrib.auth.models import User
+
+
+
+class UserSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = User
+        fields = '__all__'
+
+
 class UserProfileSerializer(serializers.HyperlinkedModelSerializer):
     """Serializer for the model UserProfile"""
     class Meta:
