@@ -19,7 +19,12 @@ class SetUrlViewSet(viewsets.ModelViewSet):
     queryset = SetUrl.objects.all()
     serializer_class = SetUrlSerializer
     
+    def create(self, request,*args, **kwargs):
+            pass
+    
 class HitViewset(viewsets.ModelViewSet):
     """ Api Endpoint for hit of setUrl"""
     queryset = Hit.objects.all()
     serializer_class = HitSerializer
+
+
