@@ -10,10 +10,16 @@ from django.contrib.auth.models import User
 
 
 
-class UserSerializer(serializers.HyperlinkedModelSerializer):
+class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = '__all__'
+        fields = [
+            'username',
+            'email',
+            'first_name',
+            'last_name',
+            'is_staff',
+        ]
 
 
 class UserProfileSerializer(serializers.HyperlinkedModelSerializer):
@@ -43,7 +49,7 @@ class SetUrlSerializer(serializers.HyperlinkedModelSerializer):
             'hits',
             ]
 
- 
+
 class HitSerializer(serializers.HyperlinkedModelSerializer):
     """Serializer for the model Hit"""
         
