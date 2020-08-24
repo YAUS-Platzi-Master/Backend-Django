@@ -10,7 +10,7 @@ class UserProfile(models.Model):
     model that extends the base data
     """
     #Extends model user
-    user = models.OneToOneField(User, related_name='user_profile', on_delete=models.CASCADE,unique = True)
+    user = models.OneToOneField(User, related_name='user_profile', on_delete=models.CASCADE,unique = True,)
     
     #Extra data for user Profile
     phone_number = models.CharField(max_length=20,null=True,blank=False, unique=True)
@@ -24,7 +24,7 @@ class UserProfile(models.Model):
 class SetUrl(models.Model):
     """model for the information that relates short and log URL"""    
     #Id of user
-    user_id = models.ForeignKey(UserProfile, related_name= 'set_url',on_delete=models.CASCADE, default='')
+    user_id = models.ForeignKey(User, related_name= 'set_url',on_delete=models.CASCADE, default='',null=True)
     
     #Set of urls
     long_url = models.URLField(max_length=200)
@@ -32,7 +32,7 @@ class SetUrl(models.Model):
     
     #Timestamps
     created = models.DateTimeField(auto_now_add=True)
-    deleted = models.DateTimeField(auto_now_add=True)
+    deleted = models.DateTimeField(null=True)
     
     #Status
     status = models.CharField(max_length=45)
