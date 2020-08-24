@@ -58,7 +58,7 @@ class UserViewSet(viewsets.ModelViewSet):
     @action(methods=['get'], detail=True,permission_classes = [IsAuthenticated])
     def set_urls(self, request, pk=None):
         """Returns only the set_urls for the user authenticated"""
-
+    
         #Take the username from the request
         username = self.request.user.username
         
@@ -76,7 +76,7 @@ class UserViewSet(viewsets.ModelViewSet):
                             'data': serializer.data,
         })
 
-    @action(methods=['POST'], detail=True,permission_classes = [AllowAny])
+    @action(methods=['POST'], detail=True,permission_classes = [IsAuthenticated])
     def set_urls(self, request, pk=None):
         """creates a set of urls"""
 
