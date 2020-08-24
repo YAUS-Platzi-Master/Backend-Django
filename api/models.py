@@ -43,7 +43,7 @@ class SetUrl(models.Model):
 
     def __str__(self):
         """return long url"""
-        return '{self.long_url},{self.short_url}'
+        return f'{self.long_url},{self.short_url}'
 
 class Hit(models.Model):
     """model for hits of a set Url"""

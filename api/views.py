@@ -35,21 +35,67 @@ class UserViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAdminUser]
     
     @action(methods=['get'], detail=True,permission_classes = [IsAuthenticated])
-    def details(self, reques, pk=None):
+    def details(self, request, pk=None):
         """Returns only the info for the user authenticated"""
 
         #Take the username from the request
         username = self.request.user.username
 
         #filter the queriset by the username
-        queryset = self.get_queryset().filter(username=username)
+        queryset = self.get_queryset().filter(
+                                        username=username,
+                                        id=pk
+                                        )
 
         #serialize the data        
         serializer = UserSerializer(queryset,many=True)
         
         return Response(serializer.data)
 
-    
+    @action(methods=['get'], detail=True,permission_classes = [IsAuthenticated])
+    def set_urls(self, request, pk=None):
+        """Returns only the set_urls for the user authenticated"""
+
+        #Take the username from the request
+        username = self.request.user.username
+        
+        #filter the queryset by the username authenticated
+        queryset = SetUrl.objects.filter(
+                                        user_id__user__username=username,
+                                        user_id__user__id=pk
+                                        )
+
+        #serialize the data        
+        serializer = SetUrlSerializer(queryset,many=True)
+        
+        return Response({
+                            'total_set_urls': queryset.count(),
+                            'data': serializer.data,
+        })
+
+
+    @action(methods=['get'], detail=True,permission_classes = [IsAuthenticated])
+    def hits(self, request, pk=None):
+        """Returns only the info for the user authenticated"""
+
+        #Take the username from the request
+        username = self.request.user.username
+
+        #queryset = Hit.objects.filter(set_url_id=3)
+        queryset = Hit.objects.filter(
+                                    set_url_id__user_id__user__username=username,
+                                    set_url_id__user_id__user__id=pk
+                                    )
+
+        #serialize the data        
+        serializer = HitSerializer(queryset,many=True)
+        
+        return Response({
+                            'total_hits':queryset.count(),
+                            'data':serializer.data,
+                        })
+
+        # def count(se)
 
 class UserProfileViewSet(viewsets.ModelViewSet):
     """ Api Endpoint for UserProfile"""
