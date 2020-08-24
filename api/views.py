@@ -95,7 +95,6 @@ class UserViewSet(viewsets.ModelViewSet):
                             'data':serializer.data,
                         })
 
-        # def count(se)
 
 class UserProfileViewSet(viewsets.ModelViewSet):
     """ Api Endpoint for UserProfile"""
@@ -140,5 +139,4 @@ class CustomAuthToken(ObtainAuthToken):
         return Response({
             'token': token.key,
             'user_id': user.pk,
-            'email': user.email
         })
