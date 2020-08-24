@@ -1,7 +1,8 @@
 """Views for API """
 
-#Utilities
+#Utilities rest
 from rest_framework import viewsets
+
 
 #Utilities for custom  auth token
 from rest_framework.authtoken.views import ObtainAuthToken
@@ -24,7 +25,6 @@ from django.contrib.auth.models import User
 #Models
 from .models import  UserProfile, SetUrl, Hit
 
-
 #Serializers
 from .serializers import UserSerializer, UserProfileSerializer, SetUrlSerializer, HitSerializer
 
@@ -33,6 +33,23 @@ class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
     permission_classes = [IsAdminUser]
+    
+    @action(methods=['get'], detail=True,permission_classes = [IsAuthenticated])
+    def details(self, reques, pk=None):
+        """Returns only the info for the user authenticated"""
+
+        #Take the username from the request
+        username = self.request.user.username
+
+        #filter the queriset by the username
+        queryset = self.get_queryset().filter(username=username)
+
+        #serialize the data        
+        serializer = UserSerializer(queryset,many=True)
+        
+        return Response(serializer.data)
+
+    
 
 class UserProfileViewSet(viewsets.ModelViewSet):
     """ Api Endpoint for UserProfile"""
@@ -48,7 +65,7 @@ class SetUrlViewSet(viewsets.ModelViewSet):
 
 
 
-    @action(methods=['get'], detail=True)
+    @action(methods=['get'], detail=True,)
     def hits(self, request, pk=None):
         queryset = SetUrl.objects.filter(hits=request.SetUrl_id)
 
@@ -66,9 +83,9 @@ class CustomAuthToken(ObtainAuthToken):
 
     def post(self, request, *args, **kwargs):
         serializer = self.serializer_class(
-                                        data=request.data,
-                                        context={'request': request}
-                                        )
+                                            data=request.data,
+                                            context={'request': request}
+                                            )
 
         serializer.is_valid(raise_exception=True)
         user = serializer.validated_data['user']
