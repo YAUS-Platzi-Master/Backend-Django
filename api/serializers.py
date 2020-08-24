@@ -19,6 +19,15 @@ class UserSerializer(serializers.ModelSerializer):
             'first_name',
             'last_name',
             'is_staff',
+            'user_profile',
+            'auth_token',
+            'date_joined',
+            'id',
+            'is_active',
+            'is_staff',
+            'is_superuser',
+            'last_login'
+            
         ]
 
 
@@ -27,18 +36,17 @@ class UserProfileSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = UserProfile
         fields = [
-            #'user',
             'phone_number',
         ]
 
 
 class SetUrlSerializer(serializers.HyperlinkedModelSerializer):
     """Serializer for the model SetUrl"""
-    hits = serializers.HyperlinkedRelatedField(
-        many=True,
-        read_only=True,
-        view_name='hit-detail'
-    )
+    # hits = serializers.HyperlinkedRelatedField(
+    #     many=True,
+    #     read_only=True,
+    #     view_name='hit-detail'
+    # )
 
     class Meta:
         model = SetUrl
@@ -46,7 +54,10 @@ class SetUrlSerializer(serializers.HyperlinkedModelSerializer):
             'long_url',
             'short_url',
             'status',
-            'hits',
+            # 'hits',
+            'created',
+            'deleted',
+            'id',
             ]
 
 
@@ -64,4 +75,6 @@ class HitSerializer(serializers.HyperlinkedModelSerializer):
             'lattitude',
             'longitude',
             'agent_client',
+            'created',
+            'id',
         ]
