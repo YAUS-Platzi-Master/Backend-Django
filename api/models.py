@@ -10,7 +10,7 @@ class UserProfile(models.Model):
     model that extends the base data
     """
     #Extends model user
-    user = models.OneToOneField(User, related_name='user_profile', on_delete=models.CASCADE,unique = True,)
+    user = models.OneToOneField(User, related_name='user_profile', on_delete=models.CASCADE,unique = True)
     
     #Extra data for user Profile
     phone_number = models.CharField(max_length=20,null=True,blank=False, unique=True)
@@ -24,7 +24,7 @@ class UserProfile(models.Model):
 class SetUrl(models.Model):
     """model for the information that relates short and log URL"""    
     #Id of user
-    user_id = models.ForeignKey(User, related_name= 'set_url',on_delete=models.CASCADE, default='',null=True)
+    user_id = models.ForeignKey(User, related_name= 'set_url',on_delete=models.CASCADE, default=None,null=True)
     
     #Set of urls
     long_url = models.URLField(max_length=200)
@@ -32,7 +32,7 @@ class SetUrl(models.Model):
     
     #Timestamps
     created = models.DateTimeField(auto_now_add=True)
-    deleted = models.DateTimeField(null=True)
+    deleted = models.DateTimeField(default=None,null=True)
     
     #Status
     status = models.CharField(max_length=45)
@@ -43,7 +43,7 @@ class SetUrl(models.Model):
 
     def __str__(self):
         """return long url"""
-        return f'{self.long_url},{self.short_url}'
+        return f'User: {self.user_id} | Short url: {self.short_url}'
 
 class Hit(models.Model):
     """model for hits of a set Url"""
@@ -69,4 +69,4 @@ class Hit(models.Model):
 
     def __str__(self):
         """return urls hitted"""
-        return (self.set_url_id.short_url,self.http_reffer)
+        return f'set url: {self.set_url_id.short_url} | Http_refer: {self.http_reffer}'

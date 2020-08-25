@@ -18,17 +18,28 @@ class UserSerializer(serializers.ModelSerializer):
             'email',
             'first_name',
             'last_name',
-            'is_staff',
-            'user_profile',
-            'auth_token',
-            'date_joined',
+            # 'is_staff',
+            # 'user_profile',
+            # 'auth_token',
+            'password',
+            #'date_joined',
             'id',
-            'is_active',
-            'is_staff',
-            'is_superuser',
-            'last_login'
+            #'is_active',
+            #'is_superuser',
+            #'last_login'
             
         ]
+        extra_kwargs = {
+            'password': {'write_only':True},
+        }
+
+    def save(self, validated_data):
+        password = validated_data.pop('password')
+        user = User(**validated_data)
+        user.set_password(password)
+        user.save()
+
+        return user
 
 
 class UserProfileSerializer(serializers.HyperlinkedModelSerializer):
@@ -42,11 +53,6 @@ class UserProfileSerializer(serializers.HyperlinkedModelSerializer):
 
 class SetUrlSerializer(serializers.HyperlinkedModelSerializer):
     """Serializer for the model SetUrl"""
-    # hits = serializers.HyperlinkedRelatedField(
-    #     many=True,
-    #     read_only=True,
-    #     view_name='hit-detail'
-    # )
 
     class Meta:
         model = SetUrl
@@ -56,10 +62,11 @@ class SetUrlSerializer(serializers.HyperlinkedModelSerializer):
             'status',
             # 'hits',
             'created',
-            'deleted',
+            #'deleted',
             'id',
             ]
-
+    
+    
 
 class HitSerializer(serializers.HyperlinkedModelSerializer):
     """Serializer for the model Hit"""
