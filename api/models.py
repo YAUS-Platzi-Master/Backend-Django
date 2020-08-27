@@ -28,7 +28,7 @@ class SetUrl(models.Model):
     
     #Set of urls
     long_url = models.URLField(max_length=200)
-    short_url = models.URLField(max_length=50, null=True, unique = True)
+    short_url = models.CharField(max_length=50, null=True, unique = True)
     
     #Timestamps
     created = models.DateTimeField(auto_now_add=True)
@@ -52,14 +52,14 @@ class Hit(models.Model):
     set_url_id = models.ForeignKey(SetUrl,related_name = 'hits', on_delete=models.CASCADE)
     
     #Data from the excecution of shor_url
-    http_reffer = models.CharField(max_length=100)
-    ip = models.CharField(max_length=45)
-    country_code = models.CharField(max_length=2)
-    region_code =  models.CharField(max_length=2)
-    city = models.CharField(max_length=200)
-    lattitude = models.CharField(max_length=45)
-    longitude  =  models.CharField(max_length=45)
-    agent_client = models.CharField(max_length=45)
+    http_reffer = models.CharField(max_length=100, null = True)
+    ip = models.CharField(max_length=45, null = True)
+    country_code = models.CharField(max_length=2, null = True)
+    region_code =  models.CharField(max_length=2, null = True)
+    city = models.CharField(max_length=200, null = True)
+    lattitude = models.CharField(max_length=45, null = True)
+    longitude  =  models.CharField(max_length=45, null = True)
+    agent_client = models.CharField(max_length=45, null = True)
 
     #timestamps
     created = models.DateTimeField(auto_now_add=True)
