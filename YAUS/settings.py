@@ -13,7 +13,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'ndds9!(0@qr!g^8$4ifcbnyiaumlx^(1q!62ko#s6d12ts2eqj'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = [ '*'
 ]
@@ -30,7 +30,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     #Djangorest-Framework
-   'rest_framework',
+    'rest_framework',
+    'rest_framework.authtoken',
 
     #apps created
     'api',
@@ -38,8 +39,17 @@ INSTALLED_APPS = [
 ]
 
 REST_FRAMEWORK = {
+    #Authentication system
+    'DEFAULT_AUTHENTICATION_CLASSES':(
+        'rest_framework.authentication.TokenAuthentication',
+    ),
+    'DEFAULT_PERMISSION_CLASSES':(
+        'rest_framework.permissions.IsAuthenticated',
+    ),
+
+    #Pagiination 
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-    'PAGE_SIZE': 10
+    'PAGE_SIZE': 10,
 }
 
 MIDDLEWARE = [
