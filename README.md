@@ -34,3 +34,22 @@ In the requests add to headers the token like this:
 #Example using httpie
 http GET https://yaus-api.herokuapp.com/api/1.0/user/1/ 'Authorization: Token 4252a2e9761d9e0f9e166ad112af267341ec3129'
 ```
+
+### How to create a short url?
+
+Make a POST Request to the next url
+
+```bash
+#Example using httpie
+http GET https://yaus-api.herokuapp.com/api/1.0/user/1/set_urls/
+```
+
+Remember that you must send in the body the params
+
+```
+{
+    'long_url':'',
+    'short_url':'',
+}
+
+```
