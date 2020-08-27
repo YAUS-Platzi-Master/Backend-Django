@@ -32,29 +32,6 @@ from django.db.migrations import serializer
 from secrets import token_urlsafe
 
 
-class RegisterUserView(generics.CreateAPIView):
-    """ Register a new user"""
-    permission_classes = [AllowAny]
-    serializer_class = UserSerializer
-
-    def create(self, request, *args, **kwargs):
-        #register a new user
-        serializer = UserSerializer(data=self.request.data)
-        data = {}
-        if serializer.is_valid():
-            #check if the params are valid
-            user = serializer.save(validated_data=serializer.validated_data)
-            data['Response'] = 'User created succesfully'
-            data['username'] = user.username
-            data['email'] = user.email
-        else:
-            
-            data = serializer.errors
-            data['Response'] = 'Error user dont created'
-        return Response(data)
-
-
-
 class RegisterNewUrlView(generics.CreateAPIView):
     """Register a new shor url"""
     permission_classes = [AllowAny]
@@ -118,9 +95,9 @@ class UserViewSet(viewsets.ModelViewSet):
     """API endpoint for User"""
     queryset = User.objects.all()
     serializer_class = UserSerializer
-    permission_classes = [IsAdminUser]
+    permission_classes = [IsAdminUser,]
     
-    @action(methods=['get'], detail=True,permission_classes = [IsAuthenticated])
+    @action(methods=['get'], detail=True,permission_classes = [IsAuthenticated,])
     def details(self, request, pk=None):
         """Returns only the info for the user authenticated"""
 
@@ -137,7 +114,7 @@ class UserViewSet(viewsets.ModelViewSet):
         serializer = UserSerializer(queryset,many=True)
         return Response(serializer.data)
 
-    @action(methods=['get'], detail=True,permission_classes = [IsAuthenticated])
+    @action(methods=['get'], detail=True,permission_classes = [AllowAny,])
     def set_urls(self, request, pk=None):
         """Returns only the set_urls for the user authenticated"""
     
@@ -158,7 +135,7 @@ class UserViewSet(viewsets.ModelViewSet):
                             'data': serializer.data,
         })
 
-    @action(methods=['get'], detail=True,permission_classes = [IsAuthenticated])
+    @action(methods=['get'], detail=True,permission_classes = [AllowAny])
     def hits(self, request, pk=None):
         """Returns only the info for the user authenticated"""
 
@@ -207,22 +184,22 @@ class HitViewset(viewsets.ModelViewSet):
     serializer_class = HitSerializer
 
 
-class CustomAuthToken(ObtainAuthToken):
-    """ Api endpoint for create a custom token
+# class CustomAuthToken(ObtainAuthToken):
+#     """ Api endpoint for create a custom token
     
-    Takes the base class ObtainAuthToken and add some things"""
+#     Takes the base class ObtainAuthToken and add some things"""
 
-    def post(self, request, *args, **kwargs):
-        serializer = self.serializer_class(
-                                            data=request.data,
-                                            context={'request': request}
-                                            )
+#     def post(self, request, *args, **kwargs):
+#         serializer = self.serializer_class(
+#                                             data=request.data,
+#                                             context={'request': request}
+#                                             )
 
-        serializer.is_valid(raise_exception=True)
-        user = serializer.validated_data['user']
-        token, created = Token.objects.get_or_create(user=user)
+#         serializer.is_valid(raise_exception=True)
+#         user = serializer.validated_data['user']
+#         token, created = Token.objects.get_or_create(user=user)
         
-        return Response({
-            'token': token.key,
-            'user_id': user.pk,
-        })
+#         return Response({
+#             'token': token.key,
+#             'user_id': user.pk,
+#         })

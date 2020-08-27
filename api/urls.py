@@ -14,7 +14,6 @@ router.register(r'set_of_urls', views.SetUrlViewSet)
 router.register(r'hit', views.HitViewset)
 
 urlpatterns = [
-    path('register/user',views.RegisterUserView.as_view()),
     path('register/new_url',views.RegisterNewUrlView.as_view()),
     path('', include(router.urls)),
     
