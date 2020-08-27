@@ -5,3 +5,6 @@ pytz==2020.1
 sqlparse==0.3.1
 gunicorn==20.0.4
 django-heroku==0.3.1
+chardet==3.0.4
+django-rest-knox==4.1.0
+pycparser==2.20
