@@ -28,10 +28,9 @@ from .models import  UserProfile, SetUrl, Hit
 from .serializers import UserSerializer, UserProfileSerializer, SetUrlSerializer, HitSerializer
 from django.db.migrations import serializer
 
-#random url 
-from .random_url import random_url_gen
+#python utilities
+from secrets import token_urlsafe
 
-DOMAIN_NAME = 'https://yaus.com/'
 
 class RegisterUserView(generics.CreateAPIView):
     """ Register a new user"""
@@ -82,7 +81,7 @@ class RegisterNewUrlView(generics.CreateAPIView):
                 if request.data['custom_url']: #check if authenticated user wants a custom url
                     
                     if 'short_url_custom' in request.data:
-                        new_set_url.short_url = DOMAIN_NAME + request.data['short_url_custom']
+                        new_set_url.short_url = request.data['short_url_custom']
                         data['Response'] = 'Register new custom url for authenticated User'
                     
                     else:
@@ -90,13 +89,13 @@ class RegisterNewUrlView(generics.CreateAPIView):
                         return Response(data,status=200) 
 
                 else:  
-                    new_set_url.short_url = DOMAIN_NAME + random_url_gen()
+                    new_set_url.short_url = token_urlsafe(nbytes=5)
                     data['Response'] = 'Register new random url for authenticated User'
 
             else: 
                 
                 if not request.data['custom_url']:
-                    new_set_url.short_url = DOMAIN_NAME + random_url_gen()
+                    new_set_url.short_url = token_urlsafe(nbytes=5)
                     data['Response'] = 'Register new random url for anonymous user'
 
                 else:
