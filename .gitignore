@@ -2,12 +2,14 @@
 */__pycache__/
 *.py[cod]
 *$py.class
-*.pyc
+*.pyc*
+*/__pycache__/*
 
 # C extensions
 *.so
 
 # Distribution / packaging
+*
 .Python
 build/
 develop-eggs/
@@ -143,4 +145,3 @@ cython_debug/
 *.vscode
 
 
-YAUS/__pycache__/urls.cpython-38.pyc
