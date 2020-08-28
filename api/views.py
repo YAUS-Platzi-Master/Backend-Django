@@ -32,6 +32,28 @@ from django.db.migrations import serializer
 from secrets import token_urlsafe
 
 
+class RegisterUserView(generics.CreateAPIView):
+    """ Register a new user"""
+    permission_classes = [AllowAny]
+    serializer_class = UserSerializer
+
+    def create(self, request, *args, **kwargs):
+        #register a new user
+        serializer = UserSerializer(data=self.request.data)
+        data = {}
+        if serializer.is_valid():
+            #check if the params are valid
+            user = serializer.save(validated_data=serializer.validated_data)
+            data['Response'] = 'User created succesfully'
+            data['username'] = user.username
+            data['email'] = user.email
+        else:
+            
+            data = serializer.errors
+            data['Response'] = 'Error user dont created'
+        return Response(data)
+        
+
 class RegisterNewUrlView(generics.CreateAPIView):
     """Register a new shor url"""
     permission_classes = [AllowAny]
