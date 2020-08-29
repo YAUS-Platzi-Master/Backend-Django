@@ -39,6 +39,9 @@ INSTALLED_APPS = [
     #knox auth
     'knox',
 
+    #authKnox
+    'authKnox',
+
 ]
 
 REST_FRAMEWORK = {
@@ -54,10 +57,10 @@ REST_FRAMEWORK = {
         'rest_framework.throttling.UserRateThrottle'
     ],
 
-    # 'DEFAULT_THROTTLE_RATES': {
-    #     'anon': '10/day',
-    #     'user': '100/day'
-    # },
+    'DEFAULT_THROTTLE_RATES': {
+        'anon': '19/day',
+        'user': '1000/day'
+    },
     #Pagiination 
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 10,
@@ -66,11 +69,10 @@ REST_FRAMEWORK = {
 REST_KNOX = {
     'SECURE_HASH_ALGORITHM': 'cryptography.hazmat.primitives.hashes.SHA512',
     'AUTH_TOKEN_CHARACTER_LENGTH': 64,
-    'TOKEN_TTL': timedelta(hours=10),
+    'TOKEN_TTL': timedelta(hours=1),
     'USER_SERIALIZER': 'knox.serializers.UserSerializer',
     'TOKEN_LIMIT_PER_USER': 50,
-    'AUTO_REFRESH': False,
-    # 'EXPIRY_DATETIME_FORMAT': api_settings.DATETME_FORMAT,
+    'AUTO_REFRESH': False
 }
 
 
