@@ -1,11 +1,15 @@
-"""Serializers for models in Api app"""
+"""Serializers for models in authKnox app"""
 #Djangorest-framework
 from rest_framework import serializers
 
 #model
 from knox.models import AuthToken
+from authKnox.models import TokenProfile
 
 class ListTokenSerializer(serializers.ModelSerializer):
+    """serializer for list of tokkens"""
+    token_profile = serializers.StringRelatedField(many=False)   
+    
     class Meta:
         model = AuthToken
         fields = [
@@ -13,4 +17,5 @@ class ListTokenSerializer(serializers.ModelSerializer):
                 'token_key',
                 'created',
                 'expiry',
+                'token_profile',
                 ]

@@ -1,4 +1,4 @@
-""" Ulrs for auth app"""
+""" Ulrs for authKnox app"""
 
 #Utilities
 from django.urls import path, include
