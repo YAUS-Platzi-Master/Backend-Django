@@ -6,25 +6,37 @@ Follow the next link to see the project:
 
 [](https://yaus-api.herokuapp.com/)
 
+
+
+
 ## Token Authentication
 ### We decide use authentication via token for the API Yaus.
 
 ### How to generate a token?
 
-Send request via POST including username and pasword to this endpoint
+The user must login sending a POST request. 
+Remember send the credentials in the body
 
 ```bash
-#Example using httpie: 
-http POST https://yaus-api.herokuapp.com/api-token-auth/ username='username' password='password'
+#Example
+http POST https://yaus-api.herokuapp.com/auth/login/ username='username' password='password'
 
 #Example of response:
 
 {
-    "token": "423332e9761d9e0f9e166ad112af267341ec3129",
-    "user_id": 2,
-    "email": "user@email.com"
+    "expiry": "2020-08-30T00:06:17.173405Z",
+    "token": "c6d7e16ce7432d8aee0cc902d89aae34d8633011e81d7ffe20200bbb175fdd6e",
+    "user": {
+        "username": "admin"
+    },
+    "headers": {
+        "user_agent": "PostmanRuntime/7.26.3",
+        "Host": "localhost:8000"
+    }
 }
 ```
+
+
 
 ### How to use the token?
 
@@ -59,6 +71,28 @@ Remember that you must send in the body the params
 ```
 The custom url is only avaliable for Authenticated users via token.
 
+### How can I know my tokens avaliable?
+
+Send a POST request to the following endpoint
+```bash
+https://yaus-api.herokuapp.com/api/auth/list_token/
+```
+Response:
+```
+{
+    "username": "admin",
+    "count": 1,
+    "tokens": [
+        {
+            "user": 1,
+            "token_key": "bbc73e50",
+            "created": "2020-08-29T22:57:31.903394Z",
+            "expiry": "2020-08-29T23:57:31.903110Z",
+            "token_profile": " localhost:8000 : PostmanRuntime/7.26.3"
+        }
+    ]
+}
+```
 
 #### How to create a new user?
 
@@ -71,7 +105,7 @@ http GET https://yaus-api.herokuapp.com/api/1.0/register/user/
 
 Remember that you must send in the body the params
 
-```
+```bash
 {
     "username":"example.username",
     "password":"123",
@@ -80,4 +114,12 @@ Remember that you must send in the body the params
     "email":"email@email.com"
 }
 
+#Response:
+{
+    "Response": "User created succesfully",
+    "username": "example5.username",
+    "email": "email3@email.com"
+}
 ```
+
+
