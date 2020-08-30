@@ -11,7 +11,7 @@ from django.views.decorators.csrf import csrf_exempt
 
 #Utilities django rest
 from rest_framework.response import Response
-
+from rest_framework import status
 
 #Permisions
 from rest_framework.permissions import AllowAny, IsAuthenticated, IsAdminUser
@@ -50,7 +50,7 @@ class ListTokenProfileView(APIView):
         data['username']=username
         data['count']= queryset.count()
         data['tokens']=serializer.data
-        return Response(data=data,status=200)
+        return Response(data=data,status=status.HTTP_200_OK)
 
 class LoginView(LoginView):
     """Login View"""
@@ -71,7 +71,7 @@ class LoginView(LoginView):
             if token.count() >= token_limit_per_user:
                 return Response(
                     {"error": "Maximum amount of tokens allowed per user exceeded."},
-                    status=403
+                    status=status.HTTP_403_FORBIDDEN
                 )
         
         token_ttl = self.get_token_ttl()
@@ -94,7 +94,7 @@ class LoginView(LoginView):
         token_profile.save()
         data = self.get_post_response_data(request, token, instance,token_profile)
         
-        return Response(data)
+        return Response(data=data,status=status.HTTP_201_CREATED)
 
 
     def get_post_response_data(self, request, token, instance,token_profile):
@@ -138,7 +138,7 @@ class LogoutView(LogoutView):
         data['User']= request.user.username
         
         
-        return Response(data=data,status=200)
+        return Response(data=data,status=status.HTTP_200_OK)
 
 
 class LogoutAllView(LogoutAllView):
@@ -157,4 +157,4 @@ class LogoutAllView(LogoutAllView):
         data['Number_Logout'] = 'all'
         data['User']= request.user.username 
         
-        return Response(data=data, status=200)
+        return Response(data=data, status=status.HTTP_200_OK)
