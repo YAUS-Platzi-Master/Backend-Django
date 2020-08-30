@@ -35,6 +35,20 @@ from authKnox.serializers import ListTokenSerializer, TokenProfile
 from knox.models import AuthToken
 from authKnox.models import TokenProfile
 
+
+
+
+from braces.views import CsrfExemptMixin
+
+
+
+
+
+
+
+
+
+
 class ListTokenProfileView(APIView):
     """ List all token for the authenticated user"""
 
@@ -56,9 +70,9 @@ class ListTokenProfileView(APIView):
 
 
 @method_decorator(csrf_exempt,name='post')
-class LoginView(LoginView):
+class LoginView(CsrfExemptMixin,LoginView):
     """Login View"""
-    permission_classes = [AllowAny,]
+    permission_classes = [AllowAny]
 
     # @ensure_csrf_cookie
     # @csrf_exempt
@@ -163,3 +177,6 @@ class LogoutAllView(LogoutAllView):
         data['User']= request.user.username 
         
         return Response(data=data, status=status.HTTP_200_OK)
+
+
+
