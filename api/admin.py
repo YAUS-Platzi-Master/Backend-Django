@@ -12,7 +12,7 @@ from .models import UserProfile,  SetUrl, Hit
 class UserProfileAdmin(admin.ModelAdmin):
     """Profile UserProfile"""
 
-    list_display = ('pk','user','phone_number')
+    list_display = ('pk','user','phone_number','Is_developer')
     list_display_links = ('pk','user')
     
     search_fields = (

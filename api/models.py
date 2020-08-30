@@ -14,11 +14,12 @@ class UserProfile(models.Model):
     
     #Extra data for user Profile
     phone_number = models.CharField(max_length=20,null=True,blank=False, unique=True)
+    Is_developer = models.BooleanField(verbose_name='Is_developer',default=False, null=True)
     modified = models.DateTimeField(auto_now=True)
     
     def  __str__(self):
         """return username"""
-        return self.user.username
+        return f'{self.Is_developer}'
 
 
 class SetUrl(models.Model):

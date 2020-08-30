@@ -1,11 +1,14 @@
 """Views for API """
+#python utilites
+import re
+
 
 #Utilities rest
 from rest_framework import viewsets, generics
-import re
+from rest_framework import status
 
 #Utilities for custom  auth token
-from rest_framework.authtoken.views import ObtainAuthToken
+from rest_framework.authtoken.views import ObtainAuthToken 
 from rest_framework.authtoken.models import Token
 from rest_framework.response import Response
 
@@ -44,14 +47,20 @@ class RegisterUserView(generics.CreateAPIView):
         if serializer.is_valid():
             #check if the params are valid
             user = serializer.save(validated_data=serializer.validated_data)
+            
+            #save profile
+            profile = UserProfile(user=user)
+            profile.save()
+            #making response
             data['Response'] = 'User created succesfully'
             data['username'] = user.username
             data['email'] = user.email
+            data['Is_developer'] = profile.Is_developer
         else:
             
             data = serializer.errors
             data['Response'] = 'Error user dont created'
-        return Response(data)
+        return Response(data=data,status=status.HTTP_201_CREATED)
         
 
 class RegisterNewUrlView(generics.CreateAPIView):
@@ -86,8 +95,8 @@ class RegisterNewUrlView(generics.CreateAPIView):
                     if 'short_url_custom' in request.data:
 
                         if re.search(r'^[a-z0-9\-]+$',request.data['short_url_custom']) == None:
-                            Response['Response'] = 'short_url_custom invalid. Only accept letters, numbers or guion'
-                            return Response(data,status=200) 
+                            data['Response'] = 'short_url_custom invalid. Only accept letters, numbers or guion'
+                            return Response(data=data,status=status.HTTP_400_BAD_REQUEST) 
 
                         else:
                             new_set_url.short_url = request.data['short_url_custom']
@@ -95,7 +104,7 @@ class RegisterNewUrlView(generics.CreateAPIView):
                     
                     else:
                         data['Response'] = 'Not registed. Must pass a short_url_custom'
-                        return Response(data,status=200) 
+                        return Response(data=data,status=status.HTTP_401_UNAUTHORIZED) 
 
                 else:  
                     new_set_url.short_url = token_urlsafe(nbytes=5)
@@ -109,7 +118,7 @@ class RegisterNewUrlView(generics.CreateAPIView):
 
                 else:
                     data['Response'] = 'custom url no avaliable for anonymous user'
-                    return Response(data,status=200)  
+                    return Response(data=data,status=status.HTTP_400_BAD_REQUEST)  
             
         
             new_set_url.save()
@@ -119,15 +128,12 @@ class RegisterNewUrlView(generics.CreateAPIView):
             data = serializer.error_messages
             data['Response'] = 'Format of params invalid'
         
-        return Response(data,status=200)
+        return Response(data=data,status=status.HTTP_400_BAD_REQUEST)
 
     
 
-class UserViewSet(viewsets.ModelViewSet):
+class UserViewSet(generics.ListAPIView):
     """API endpoint for User"""
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
-    permission_classes = [IsAuthenticated,]
     
     def get_queryset(self):
         return User.objects.filter(username=self.request.user.username)
@@ -135,10 +141,6 @@ class UserViewSet(viewsets.ModelViewSet):
     def list(self, request, pk=None):
         """Returns only the info for the user authenticated"""
 
-        #Take the username from the request
-        username = self.request.user.username
-
-        #filter the queriset by the username
         queryset = self.get_queryset()
 
         #serialize the data        
@@ -149,95 +151,78 @@ class UserViewSet(viewsets.ModelViewSet):
         data['Response'] = 'User details'
         data['data']=serializer.data
 
-        return Response(data=data,status=200)
+        return Response(data=data,status=status.HTTP_200_OK)
 
-
-    @action(methods=['get'], detail=True,permission_classes = [AllowAny,])
-    def set_urls(self, request, pk=None):
-        """Returns only the set_urls for the user authenticated"""
-    
-        #Take the username from the request
-        username = self.request.user.username
+class UserHitsViewSet(generics.ListAPIView):
+    """class for read all hits for a user"""
+    def get_queryset(self):
+        return Hit.objects.filter(set_url_id__user_id__username=self.request.user.username)
         
-        #filter the queryset by the username authenticated
-        queryset = SetUrl.objects.filter(
-                                        user_id__username=username,
-                                        user_id__id=pk
-                                        )
-
-        #serialize the data        
-        serializer = SetUrlSerializer(queryset,many=True)
-        
-        return Response({
-                            'total_set_urls': queryset.count(),
-                            'data': serializer.data,
-        })
-
-    @action(methods=['get'], detail=True,permission_classes = [AllowAny])
-    def hits(self, request, pk=None):
+    def list(self, request, pk=None):
         """Returns only the info for the user authenticated"""
-
-        #Take the username from the request
         username = self.request.user.username
-
-        #queryset = Hit.objects.filter(set_url_id=3)
-        queryset = Hit.objects.filter(
-                                    set_url_id__user_id__username=username,
-                                    set_url_id__user_id__id=pk
-                                    )
         
+        queryset = self.get_queryset()
+
         #serialize the data        
         serializer = HitSerializer(queryset,many=True)
         
-        return Response({
-                            'total_hits':queryset.count(),
-                            'data':serializer.data,
-                        })
-
-
-
-class UserProfileViewSet(viewsets.ModelViewSet):
-    """ Api Endpoint for UserProfile"""
-    queryset = UserProfile.objects.all()
-    serializer_class = UserProfileSerializer
-    permission_classes = [IsAdminUser]
+        #Making the response
+        data = {}
+        data['Response'] = 'Hits for user'
+        data['user']= self.request.user.username
+        data['count'] = queryset.count()
+        data['data'] = serializer.data
+        return Response(data=data, status=status.HTTP_200_OK)
 
 
 class SetUrlViewSet(viewsets.ModelViewSet):
     """ Api Endpoint for set of Url"""
-    queryset = SetUrl.objects.all()
     serializer_class = SetUrlSerializer
-    permission_classes = [IsAuthenticated]
+    
+    def get_queryset(self):
+        return SetUrl.objects.filter(user_id__username=self.request.user.username)
+    
+    def list(self, request, pk=None):
+        """Returns only the set_urls for the user authenticated"""
 
+        queryset = self.get_queryset()
+        
+        #serialize the data        
+        serializer = SetUrlSerializer(queryset,many=True,context={'request': request})
+        
+        #making the response
+        data = {}
+        data['Response'] = 'Sets of Urls for user'
+        data['user'] = self.request.user.username
+        data['set_urls_per_user']= queryset.count()
+        data['data'] = serializer.data
 
-    @action(methods=['get'], detail=True,)
-    def hits(self, request, pk=None):
-        queryset = SetUrl.objects.filter(hits=request.SetUrl_id)
+        return Response(data=data, status=status.HTTP_200_OK)
 
-
+    
 
 class HitViewset(viewsets.ModelViewSet):
-    """ Api Endpoint for hit of hit"""
-    queryset = Hit.objects.all()
+    """ Api Endpoint for hits of users"""
+    # queryset = Hit.objects.all()
     serializer_class = HitSerializer
-
-
-# class CustomAuthToken(ObtainAuthToken):
-#     """ Api endpoint for create a custom token
     
-#     Takes the base class ObtainAuthToken and add some things"""
-
-#     def post(self, request, *args, **kwargs):
-#         serializer = self.serializer_class(
-#                                             data=request.data,
-#                                             context={'request': request}
-#                                             )
-
-#         serializer.is_valid(raise_exception=True)
-#         user = serializer.validated_data['user']
-#         token, created = Token.objects.get_or_create(user=user)
+    def get_queryset(self):
+        return Hit.objects.filter(set_url_id__user_id__username=self.request.user.username)
         
-#         return Response({
-#             'token': token.key,
-#             'user_id': user.pk,
-#         })
+    def list(self, request, pk=None):
+        """Returns only the info for the user authenticated"""
+        username = self.request.user.username
+        
+        queryset = self.get_queryset()
+
+        #serialize the data        
+        serializer = HitSerializer(queryset,many=True)
+        
+        #Making the response
+        data = {}
+        data['Response'] = 'Hits for user'
+        data['user']= self.request.user.username
+        data['hits_per_user'] = queryset.count()
+        data['data'] = serializer.data
+        return Response(data=data, status=status.HTTP_200_OK)
