@@ -9,6 +9,7 @@ from django.utils import timezone
 #Decorators
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.csrf import ensure_csrf_cookie
+from django.utils.decorators import method_decorator
 
 #Utilities django rest
 from rest_framework.response import Response
@@ -53,11 +54,13 @@ class ListTokenProfileView(APIView):
         data['tokens']=serializer.data
         return Response(data=data,status=status.HTTP_200_OK)
 
+
+@method_decorator(ensure_csrf_cookie,name='post')
 class LoginView(LoginView):
     """Login View"""
     permission_classes = [AllowAny,]
 
-    @ensure_csrf_cookie
+    # @ensure_csrf_cookie
     # @csrf_exempt
     def post(self, request, format=None):
         """Post a Login"""
