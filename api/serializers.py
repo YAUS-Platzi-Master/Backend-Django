@@ -45,11 +45,11 @@ class UserProfileSerializer(serializers.HyperlinkedModelSerializer):
 
 class SetUrlSerializer(serializers.HyperlinkedModelSerializer):
     """Serializer for the model SetUrl"""
-    hits = serializers.HyperlinkedRelatedField(
-                                                many=True,
-                                                read_only=True,
-                                                view_name='hits-detail'
-                                            )
+    # hits = serializers.HyperlinkedRelatedField(
+    #                                             many=True,
+    #                                             read_only=True,
+    #                                             view_name='hits-detail'
+    #                                         )
     
     total_hits = serializers.SerializerMethodField()
 
@@ -62,7 +62,7 @@ class SetUrlSerializer(serializers.HyperlinkedModelSerializer):
             'short_url',
             'created',
             'total_hits',
-            'hits',
+            # 'hits',
             ]
     
     def get_total_hits(self,obj):

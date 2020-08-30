@@ -82,8 +82,8 @@ class RegisterNewUrlView(generics.CreateAPIView):
 
         if serializer.is_valid(): #check if the params are valid
             new_set_url = SetUrl(
-                    long_url=serializer.data['long_url'],
-                    status = serializer.data['status']
+                    long_url=self.request.data['long_url'],
+                    status = self.request.data['status']
             )
             
             
@@ -128,7 +128,7 @@ class RegisterNewUrlView(generics.CreateAPIView):
             data = serializer.error_messages
             data['Response'] = 'Format of params invalid'
         
-        return Response(data=data,status=status.HTTP_400_BAD_REQUEST)
+        return Response(data=data,status=status.HTTP_200_OK)
 
     
 
