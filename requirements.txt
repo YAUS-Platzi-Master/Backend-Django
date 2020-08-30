@@ -8,3 +8,4 @@ django-heroku==0.3.1
 chardet==3.0.4
 django-rest-knox==4.1.0
 pycparser==2.20
+django-cors-headers==3.5.0
