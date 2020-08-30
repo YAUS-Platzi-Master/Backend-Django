@@ -75,7 +75,7 @@ REST_KNOX = {
     'AUTH_TOKEN_CHARACTER_LENGTH': 64,
     'TOKEN_TTL': timedelta(hours=10),
     'USER_SERIALIZER': 'knox.serializers.UserSerializer',
-    'TOKEN_LIMIT_PER_USER': 100,
+    'TOKEN_LIMIT_PER_USER': 10,
     'AUTO_REFRESH': True
 }
 
@@ -100,15 +100,16 @@ CORS_ALLOW_ALL_ORIGINS = True
 # CSRF_TRUSTED_ORIGINS = [
 #     'yaus-334b4.web.app',
 # ]
+# CSRF_COOKIE_DOMAIN = [
+#     'yaus-334b4.web.app'
+# ]
 
 CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOW_HEADERS  = [
     'X-CSRFTOKEN'
 ]
 
-# CSRF_COOKIE_DOMAIN = [
-#     'yaus-334b4.web.app'
-# ]
+
 
 CSRF_COOKIE_NAME = 'X-CSRFTOKEN'
 

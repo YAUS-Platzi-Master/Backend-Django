@@ -34,21 +34,6 @@ from authKnox.serializers import ListTokenSerializer, TokenProfile
 #model
 from knox.models import AuthToken
 from authKnox.models import TokenProfile
-
-
-
-
-# from braces.views import CsrfExemptMixin
-
-
-
-
-
-
-
-
-
-
 class ListTokenProfileView(APIView):
     """ List all token for the authenticated user"""
 
@@ -136,9 +121,6 @@ class LoginView(LoginView):
                             # 'Cookie':token_profile.Cookie,
                         }
         return data
-
-
-    
 
 
 class LogoutView(LogoutView):
