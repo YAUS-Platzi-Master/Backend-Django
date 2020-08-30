@@ -103,7 +103,7 @@ CSRF_TRUSTED_ORIGINS = [
 
 
 CORS_ORIGIN_WHITELIST =[
-    'yaus-334b4.web.app'
+    'https://yaus-334b4.web.app/'
 ]
 
 CORS_ALLOW_CREDENTIALS = True
