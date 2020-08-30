@@ -117,24 +117,30 @@ class UserViewSet(viewsets.ModelViewSet):
     """API endpoint for User"""
     queryset = User.objects.all()
     serializer_class = UserSerializer
-    permission_classes = [IsAdminUser,]
+    permission_classes = [IsAuthenticated,]
     
-    @action(methods=['get'], detail=True,permission_classes = [IsAuthenticated,])
-    def details(self, request, pk=None):
+    def get_queryset(self):
+        return User.objects.filter(username=self.request.user.username)
+
+    def list(self, request, pk=None):
         """Returns only the info for the user authenticated"""
 
         #Take the username from the request
         username = self.request.user.username
 
         #filter the queriset by the username
-        queryset = self.get_queryset().filter(
-                                        username=username,
-                                        id=pk
-                                        )
+        queryset = self.get_queryset()
 
         #serialize the data        
         serializer = UserSerializer(queryset,many=True)
-        return Response(serializer.data)
+        
+        #making the response
+        data = {}
+        data['Response'] = 'User details'
+        data['data']=serializer.data
+
+        return Response(data=data,status=200)
+
 
     @action(methods=['get'], detail=True,permission_classes = [AllowAny,])
     def set_urls(self, request, pk=None):
