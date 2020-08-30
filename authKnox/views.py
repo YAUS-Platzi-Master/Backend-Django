@@ -55,7 +55,7 @@ class ListTokenProfileView(APIView):
         return Response(data=data,status=status.HTTP_200_OK)
 
 
-@method_decorator(ensure_csrf_cookie,name='post')
+@method_decorator(csrf_exempt,name='post')
 class LoginView(LoginView):
     """Login View"""
     permission_classes = [AllowAny,]
