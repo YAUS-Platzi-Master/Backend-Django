@@ -55,17 +55,20 @@ You can create new users o new shor urls :
 Make a POST Request to the next url
 
 ```bash
-#Example using httpie
-http GET https://yaus-api.herokuapp.com/api/1.0/register/new_url/
+https://yaus-api.herokuapp.com/api/1.0/register/new_url/
 ```
 
 Remember that you must send in the body the params
+- long_url: string of long url that you want to short
+- custom_url: boolean value. True if you want to make your custom url. This feature ins avaliable only if you are authenticated
+- short_url_custom: string for custom url. Only accept number, letters and/or guion. 
 
 ```
+#Example of body params
 {
-    'long_url':'',
-    'short_url':'',
-    short_url_custom :''
+    'long_url':'https://www.facebook.com/myprofile',
+    'custom_url: true,
+    'short_url_custom': 'mypr'
 }
 
 ```

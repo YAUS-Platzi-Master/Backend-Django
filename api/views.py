@@ -2,7 +2,7 @@
 
 #Utilities rest
 from rest_framework import viewsets, generics
-
+import re
 
 #Utilities for custom  auth token
 from rest_framework.authtoken.views import ObtainAuthToken
@@ -63,6 +63,10 @@ class RegisterNewUrlView(generics.CreateAPIView):
         #register a new set of urls
 
         request.data['status'] = 'Active'
+
+
+        patron = re.compile(r'/^\/[a-z0-9\-]+$/i')
+
         serializer = SetUrlSerializer(data=self.request.data)
         
         data = {}
@@ -80,11 +84,17 @@ class RegisterNewUrlView(generics.CreateAPIView):
                 if request.data['custom_url']: #check if authenticated user wants a custom url
                     
                     if 'short_url_custom' in request.data:
-                        new_set_url.short_url = request.data['short_url_custom']
-                        data['Response'] = 'Register new custom url for authenticated User'
+
+                        if re.search(r'^[a-z0-9\-]+$',request.data['short_url_custom']) == None:
+                            Response['Response'] = 'short_url_custom invalid. Only accept letters, numbers or guion'
+                            return Response(data,status=200) 
+
+                        else:
+                            new_set_url.short_url = request.data['short_url_custom']
+                            data['Response'] = 'Register new custom url for authenticated User'
                     
                     else:
-                        data['Response'] = 'Not register. Must pass a short_url_custom'
+                        data['Response'] = 'Not registed. Must pass a short_url_custom'
                         return Response(data,status=200) 
 
                 else:  
