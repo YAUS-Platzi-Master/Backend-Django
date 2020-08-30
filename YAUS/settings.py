@@ -90,7 +90,7 @@ MIDDLEWARE = [
 
     #cors manage
     'corsheaders.middleware.CorsMiddleware',
-    'Django.middleware.common.CommonMiddleware',
+    'django.middleware.common.CommonMiddleware',
 
 ]
 
