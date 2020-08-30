@@ -38,7 +38,7 @@ from authKnox.models import TokenProfile
 
 
 
-from braces.views import CsrfExemptMixin
+# from braces.views import CsrfExemptMixin
 
 
 
@@ -70,7 +70,7 @@ class ListTokenProfileView(APIView):
 
 
 @method_decorator(csrf_exempt,name='post')
-class LoginView(CsrfExemptMixin,LoginView):
+class LoginView(LoginView):
     """Login View"""
     permission_classes = [AllowAny]
 
