@@ -54,6 +54,7 @@ class LoginView(LoginView):
     """Login View"""
     permission_classes = [AllowAny,]
 
+    @csrf_exempt
     def post(self, request, format=None):
         """Post a Login"""
         serializer = AuthTokenSerializer(data= request.data)
