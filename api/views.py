@@ -94,7 +94,7 @@ class RegisterNewUrlView(generics.CreateAPIView):
                     
                     if 'short_url_custom' in request.data:
 
-                        if re.search(r'^[a-z0-9\-]+$',request.data['short_url_custom']) == None:
+                        if re.search(r'^/^/[a-z0-9-]+$/i',request.data['short_url_custom']) == None: #check if has the characters allowed
                             data['Response'] = 'short_url_custom invalid. Only accept letters, numbers or guion'
                             return Response(data=data,status=status.HTTP_400_BAD_REQUEST) 
 

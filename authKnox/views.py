@@ -8,6 +8,7 @@ from django.utils import timezone
 
 #Decorators
 from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.csrf import ensure_csrf_cookie
 
 #Utilities django rest
 from rest_framework.response import Response
@@ -56,7 +57,8 @@ class LoginView(LoginView):
     """Login View"""
     permission_classes = [AllowAny,]
 
-    @csrf_exempt
+    @ensure_csrf_cookie
+    # @csrf_exempt
     def post(self, request, format=None):
         """Post a Login"""
         serializer = AuthTokenSerializer(data= request.data)

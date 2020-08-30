@@ -55,13 +55,14 @@ REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES':(
         'rest_framework.permissions.AllowAny',
     ),
+
+    #Rate Limiting
     'DEFAULT_THROTTLE_CLASSES': [
         'rest_framework.throttling.AnonRateThrottle',
         'rest_framework.throttling.UserRateThrottle'
     ],
-
     'DEFAULT_THROTTLE_RATES': {
-        'anon': '19/day',
+        'anon': '10/day',
         'user': '1000/day'
     },
     #Pagiination 
@@ -72,28 +73,37 @@ REST_FRAMEWORK = {
 REST_KNOX = {
     'SECURE_HASH_ALGORITHM': 'cryptography.hazmat.primitives.hashes.SHA512',
     'AUTH_TOKEN_CHARACTER_LENGTH': 64,
-    'TOKEN_TTL': timedelta(hours=1),
+    'TOKEN_TTL': timedelta(hours=10),
     'USER_SERIALIZER': 'knox.serializers.UserSerializer',
-    'TOKEN_LIMIT_PER_USER': 50,
-    'AUTO_REFRESH': False
+    'TOKEN_LIMIT_PER_USER': 10,
+    'AUTO_REFRESH': True
 }
 
 
 MIDDLEWARE = [
-    #cors manage
-    'corsheaders.middleware.CorsMiddleware',
-    'django.middleware.common.CommonMiddleware',
-
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
+    
+    #cors manage
+    'corsheaders.middleware.CorsMiddleware',
+
+    'django.middleware.common.CommonMiddleware',
+        
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
 CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_CREDENTIALS = True
+CSRF_COOKIE_NAME = 'csrftoken'
+CSRF_TRUSTED_ORIGINS = [
+    'localhost:8000',
+]
+
+
+
 
 ROOT_URLCONF = 'YAUS.urls'
 
