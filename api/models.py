@@ -57,7 +57,7 @@ class Hit(models.Model):
     country_code = models.CharField(max_length=2, null = True)
     region_code =  models.CharField(max_length=2, null = True)
     city = models.CharField(max_length=200, null = True)
-    lattitude = models.CharField(max_length=45, null = True)
+    latitude = models.CharField(max_length=45, null = True)
     longitude  =  models.CharField(max_length=45, null = True)
     agent_client = models.CharField(max_length=45, null = True)
 
