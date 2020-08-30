@@ -42,6 +42,9 @@ INSTALLED_APPS = [
     #authKnox
     'authKnox',
 
+    #cors handling
+    'corsheaders',
+
 ]
 
 REST_FRAMEWORK = {
@@ -84,6 +87,11 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    #cors manage
+    'corsheaders.middleware.CorsMiddleware',
+    'Django.middleware.common.CommonMiddleware',
+
 ]
 
 ROOT_URLCONF = 'YAUS.urls'
