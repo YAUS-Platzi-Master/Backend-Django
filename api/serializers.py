@@ -79,7 +79,7 @@ class HitSerializer(serializers.HyperlinkedModelSerializer):
             'country_code',
             'region_code',
             'city',
-            'lattitude',
+            'latitude',
             'longitude',
             'agent_client',
             'created',
