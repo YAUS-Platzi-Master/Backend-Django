@@ -96,12 +96,24 @@ MIDDLEWARE = [
 ]
 
 CORS_ALLOW_ALL_ORIGINS = True
-CORS_ALLOW_CREDENTIALS = True
-CSRF_COOKIE_NAME = 'csrftoken'
+
 CSRF_TRUSTED_ORIGINS = [
-    'localhost:8000',
+    'yaus-334b4.web.app',
 ]
 
+
+CORS_ORIGIN_WHITELIST =[
+    'yaus-334b4.web.app'
+]
+
+CORS_ALLOW_CREDENTIALS = True
+
+
+# CSRF_COOKIE_DOMAIN = [
+#     'yaus-334b4.web.app'
+# ]
+
+CSRF_COOKIE_NAME = 'csrftoken'
 
 
 
