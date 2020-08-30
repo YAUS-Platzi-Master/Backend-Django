@@ -6,6 +6,8 @@ Follow the next link to see the project:
 
 [](https://yaus-api.herokuapp.com/)
 
+## Installation
+
 
 
 
@@ -36,15 +38,13 @@ http POST https://yaus-api.herokuapp.com/auth/login/ username='username' passwor
 }
 ```
 
-
-
 ### How to use the token?
 
 In the requests add to headers the token like this:
 
 ```bash
 #Example using httpie
-http GET https://yaus-api.herokuapp.com/api/1.0/user/1/ 'Authorization: Token 4252a2e9761d9e0f9e166ad112af267341ec3129'
+http GET https://yaus-api.herokuapp.com/api/1.0/user/ 'Authorization: Token 4252a2e9761d9e0f9e166ad112af267341ec3129'
 ```
 
 ## How to create new resources?
@@ -55,21 +55,177 @@ You can create new users o new shor urls :
 Make a POST Request to the next url
 
 ```bash
-#Example using httpie
-http GET https://yaus-api.herokuapp.com/api/1.0/register/new_url/
+https://yaus-api.herokuapp.com/api/1.0/register/new_url/
 ```
 
 Remember that you must send in the body the params
+- long_url: string of long url that you want to short
+- custom_url: boolean value. True if you want to make your custom url. This feature ins avaliable only if you are authenticated
+- short_url_custom: string for custom url. Only accept number, letters and/or guion. 
 
-```
+```bash
+#Example of body params
 {
-    'long_url':'',
-    'short_url':'',
-    short_url_custom :''
+    'long_url':'https://www.facebook.com/myprofile',
+    'custom_url: true,
+    'short_url_custom': 'mypr'
 }
 
 ```
 The custom url is only avaliable for Authenticated users via token.
+
+
+### How to know my resources?
+
+## How to know my user details?
+Send a get request to the endpoint
+
+```bash
+http://yaus-api.herokuap.com/api/1.0/user
+
+
+#Example of response
+{
+    "Response": "User details",
+    "data": [
+        {
+            "id": 2,
+            "first_name": "name",
+            "last_name": "last_name",
+            "username": "name.last",
+            "email": "example@yaus.com"
+        }
+    ]
+}
+```
+
+
+## How to know my sets of urls in the system?
+Send a get request to the endpoint
+
+```bash
+http://yaus-api.herokuap.com/api/1.0/set_of_urls
+
+#Example of response
+"Response": "Sets of Urls for user",
+    "user": "name.last",
+    "total_set_urls": 2,
+    "data": [
+        {
+            "id": 5,
+            "status": "Active",
+            "long_url": "https://www.instagram.com/profile/myprofile",
+            "short_url": "ig-and.and",
+            "created": "2020-08-23T05:12:06.271940Z",
+            "total_hits": 2,
+            "hits": [
+                "http://yaus-api.herokuap.com/api/1.0/hits/4/",
+                "http://yaus-api.herokuap.com/api/1.0/hits/3/"
+            ]
+        },
+        {
+            "id": 2,
+            "status": "Active",
+            "long_url": "https://www.facebook.com/profile/andres.andrade",
+            "short_url": "fb-and.and",
+            "created": "2020-08-22T23:27:47.465576Z",
+            "total_hits": 0,
+            "hits": []
+        }
+    ]
+}
+```
+
+If you want to read a set of url determined, you must add de id of the set
+
+```bash
+http://yaus-api.herokuap.com/api/1.0/set_of_urls/{id}
+
+#Example
+
+#Get request to:
+http://yaus-api.herokuap.com/api/1.0/set_of_urls/2/
+
+    {
+        "id": 2,
+        "status": "Active",
+        "long_url": "https://www.facebook.com/profile/andres.andrade",
+        "short_url": "fb-and.and",
+        "created": "2020-08-22T23:27:47.465576Z",
+        "total_hits": 0,
+        "hits": []
+    }
+
+```
+
+
+## How to know my hits?
+
+To know all the hits for my user send a get request like:
+```bash
+#Get request to:
+http://yaus-api.herokuap.com/api/1.0/hits/
+
+
+#Example of response
+{
+    "Response": "Hits for user",
+    "user": "example user",
+    "total_hits_per_user": 2,
+    "data": [
+        {
+            "http_reffer": "https://www.some-ad.com/",
+            "ip": "0.0.0.0",
+            "country_code": "8",
+            "region_code": "8",
+            "city": "8",
+            "latitude": "0 0 0 0",
+            "longitude": "0 0 0 0",
+            "agent_client": "Agent",
+            "created": "2020-08-25T05:02:09.149385Z",
+            "id": 4
+        },
+        {
+            "http_reffer": "https://www.someblog.com/",
+            "ip": "0.0.0.0",
+            "country_code": "2",
+            "region_code": "2",
+            "city": "2",
+            "latitude": "0 00 0 0",
+            "longitude": "0 0 0 0 0",
+            "agent_client": "agentclient",
+            "created": "2020-08-25T05:01:19.082817Z",
+            "id": 3
+        }
+    ]
+}
+```
+
+
+If you want to read a hit determined, you must add de id of the hit
+
+```bash
+http://yaus-api.herokuap.com/api/1.0/hit/{id}
+
+#Example
+
+#Get request to:
+http://yaus-api.herokuap.com/api/1.0/hit/2/
+
+{
+    "http_reffer": "https://www.some-ad.com/",
+    "ip": "0.0.0.0",
+    "country_code": "8",
+    "region_code": "8",
+    "city": "8",
+    "latitude": "0 0 0 0",
+    "longitude": "0 0 0 0",
+    "agent_client": "Agent",
+    "created": "2020-08-25T05:02:09.149385Z",
+    "id": 4
+}
+
+```
 
 ### How can I know my tokens avaliable?
 
@@ -78,7 +234,7 @@ Send a POST request to the following endpoint
 https://yaus-api.herokuapp.com/api/auth/list_token/
 ```
 Response:
-```
+```bash
 {
     "username": "admin",
     "count": 1,

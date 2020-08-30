@@ -9,25 +9,17 @@ from .models import SetUrl, Hit, UserProfile
 from django.contrib.auth.models import User
 
 
-
 class UserSerializer(serializers.ModelSerializer):
+    # user_profile= serializers.StringRelatedField(many=False)
     class Meta:
         model = User
         fields = [
-            'username',
-            'email',
+            'id',
             'first_name',
             'last_name',
-            # 'is_staff',
-            # 'user_profile',
-            # 'auth_token',
+            'username',
+            'email',
             'password',
-            #'date_joined',
-            'id',
-            #'is_active',
-            #'is_superuser',
-            #'last_login'
-            
         ]
         extra_kwargs = {
             'password': {'write_only':True},
@@ -53,20 +45,29 @@ class UserProfileSerializer(serializers.HyperlinkedModelSerializer):
 
 class SetUrlSerializer(serializers.HyperlinkedModelSerializer):
     """Serializer for the model SetUrl"""
+    hits = serializers.HyperlinkedRelatedField(
+                                                many=True,
+                                                read_only=True,
+                                                view_name='hits-detail'
+                                            )
+    
+    total_hits = serializers.SerializerMethodField()
 
     class Meta:
         model = SetUrl
         fields = [
+            'id',
+            'status',
             'long_url',
             'short_url',
-            'status',
-            # 'hits',
             'created',
-            #'deleted',
-            'id',
+            'total_hits',
+            'hits',
             ]
     
-    
+    def get_total_hits(self,obj):
+        return obj.hits.count()
+
 
 class HitSerializer(serializers.HyperlinkedModelSerializer):
     """Serializer for the model Hit"""
