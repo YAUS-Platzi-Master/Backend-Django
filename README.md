@@ -371,4 +371,4 @@ You can see more about the documentation <a href="https://documenter.getpostman.
 
 # About the Team
 
-You can see more about the documentation <a href="https://www.notion.so/About-us-17978bd2685642aa96778d13bf098d1f" target="_blank">here</a> 
+You can see more about the team <a href="https://www.notion.so/About-us-17978bd2685642aa96778d13bf098d1f" target="_blank">here</a> 
