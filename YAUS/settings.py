@@ -32,19 +32,16 @@ INSTALLED_APPS = [
     #Djangorest-Framework
     'rest_framework',
     'rest_framework.authtoken',
-
     #apps created
     'api',
-
     #knox auth
     'knox',
-
     #authKnox
     'authKnox',
-
     #cors handling
     'corsheaders',
-
+    #api analitics
+    'rest_framework_tracking',
 ]
 
 REST_FRAMEWORK = {
