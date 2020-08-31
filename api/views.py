@@ -34,6 +34,8 @@ from django.db.migrations import serializer
 #python utilities
 from secrets import token_urlsafe
 
+#throttle
+from api.throttles import AnonRegisterUrlThrottle, UserRegisterUrlThrottle
 
 class RegisterUserView(generics.CreateAPIView):
     """ Register a new user"""
@@ -49,7 +51,7 @@ class RegisterUserView(generics.CreateAPIView):
             user = serializer.save(validated_data=serializer.validated_data)
             
             #save profile
-            profile = UserProfile(user=user)
+            profile = UserProfile(user=user,Is_developer=False)
             profile.save()
             #making response
             data['Response'] = 'User created succesfully'
@@ -67,7 +69,8 @@ class RegisterNewUrlView(generics.CreateAPIView):
     """Register a new shor url"""
     permission_classes = [AllowAny]
     serializer_class = SetUrlSerializer
-
+    throttle_classes = [AnonRegisterUrlThrottle,UserRegisterUrlThrottle]
+    
     def create(self, request, *args, **kwargs):
         #register a new set of urls
 
@@ -94,7 +97,7 @@ class RegisterNewUrlView(generics.CreateAPIView):
                     
                     if 'short_url_custom' in request.data:
 
-                        if re.search(r'^[a-z0-9\-]+$',request.data['short_url_custom']) == None:
+                        if re.search(r'^[a-z0-9-]+$',request.data['short_url_custom']) == None: #check if has the characters allowed
                             data['Response'] = 'short_url_custom invalid. Only accept letters, numbers or guion'
                             return Response(data=data,status=status.HTTP_400_BAD_REQUEST) 
 
@@ -206,7 +209,7 @@ class HitViewset(viewsets.ModelViewSet):
     """ Api Endpoint for hits of users"""
     # queryset = Hit.objects.all()
     serializer_class = HitSerializer
-    
+
     def get_queryset(self):
         return Hit.objects.filter(set_url_id__user_id__username=self.request.user.username)
         

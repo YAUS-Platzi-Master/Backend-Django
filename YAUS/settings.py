@@ -53,17 +53,24 @@ REST_FRAMEWORK = {
         'knox.auth.TokenAuthentication',
     ),
     'DEFAULT_PERMISSION_CLASSES':(
-        'rest_framework.permissions.AllowAny',
+        'rest_framework.permissions.IsAuthenticated',
     ),
+
+    #Rate Limiting
     'DEFAULT_THROTTLE_CLASSES': [
         'rest_framework.throttling.AnonRateThrottle',
-        'rest_framework.throttling.UserRateThrottle'
-    ],
-
+        'rest_framework.throttling.UserRateThrottle',
+        ],
     'DEFAULT_THROTTLE_RATES': {
-        'anon': '19/day',
-        'user': '1000/day'
+        'anon': '100/minute',
+        'anon_register_url': '1/day',
+        'anon_login': '100/minute',
+
+        'user': '100/minute',
+        'developer_register_url': '100/minute',
+        'common_register_url':'10/minute',
     },
+    
     #Pagiination 
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 10,
@@ -74,26 +81,34 @@ REST_KNOX = {
     'AUTH_TOKEN_CHARACTER_LENGTH': 64,
     'TOKEN_TTL': timedelta(hours=1),
     'USER_SERIALIZER': 'knox.serializers.UserSerializer',
-    'TOKEN_LIMIT_PER_USER': 50,
-    'AUTO_REFRESH': False
+    'TOKEN_LIMIT_PER_USER': 100,
+    'AUTO_REFRESH': True
 }
 
 
 MIDDLEWARE = [
-    #cors manage
-    'corsheaders.middleware.CorsMiddleware',
-    'django.middleware.common.CommonMiddleware',
-
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
+    
+    #cors manage
+    'corsheaders.middleware.CorsMiddleware',
+
+    'django.middleware.common.CommonMiddleware',
+        
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+#Cors configuration
 CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOW_HEADERS  = [
+    'X-CSRFTOKEN'
+]
+CSRF_COOKIE_NAME = 'X-CSRFTOKEN'
+
 
 ROOT_URLCONF = 'YAUS.urls'
 

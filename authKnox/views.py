@@ -8,6 +8,8 @@ from django.utils import timezone
 
 #Decorators
 from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.csrf import ensure_csrf_cookie
+from django.utils.decorators import method_decorator
 
 #Utilities django rest
 from rest_framework.response import Response
@@ -33,6 +35,10 @@ from authKnox.serializers import ListTokenSerializer, TokenProfile
 from knox.models import AuthToken
 from authKnox.models import TokenProfile
 
+#throttle
+from api.throttles import AnonLoginUrlThrottle
+
+
 class ListTokenProfileView(APIView):
     """ List all token for the authenticated user"""
 
@@ -52,11 +58,14 @@ class ListTokenProfileView(APIView):
         data['tokens']=serializer.data
         return Response(data=data,status=status.HTTP_200_OK)
 
+
+@method_decorator(csrf_exempt,name='post')
 class LoginView(LoginView):
     """Login View"""
-    permission_classes = [AllowAny,]
-
-    @csrf_exempt
+    permission_classes = [AllowAny]
+    throttle_classes  = [AnonLoginUrlThrottle]
+    # @ensure_csrf_cookie
+    # @csrf_exempt
     def post(self, request, format=None):
         """Post a Login"""
         serializer = AuthTokenSerializer(data= request.data)
@@ -119,9 +128,6 @@ class LoginView(LoginView):
         return data
 
 
-    
-
-
 class LogoutView(LogoutView):
     """logout all view"""
     permission_classes = [IsAuthenticated,]
@@ -158,3 +164,6 @@ class LogoutAllView(LogoutAllView):
         data['User']= request.user.username 
         
         return Response(data=data, status=status.HTTP_200_OK)
+
+
+
