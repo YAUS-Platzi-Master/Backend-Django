@@ -279,4 +279,17 @@ Remember that you must send in the body the params
 ```
 
 
-RATE LIMITING!!!!
+### How we handle the number of requests?
+Depending on the role in the system, the allowed requests are calculated
+
+## Anonymous Users
+
+Anonymous users have limited access to the API.
+It is allowed to create a short url per day and it is not possible to consult any related statistics
+
+## Authenticated Users
+
+Authenticated users have greater access to the API, they can create up to 10 short_urls per minute and consult any statistics without exceeding a maximum of 100 requests per minute.
+
+Additionally, the use of the API for developers is allowed, in which case they can create up to 100 shor_urls per minute
+

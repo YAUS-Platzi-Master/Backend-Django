@@ -53,18 +53,24 @@ REST_FRAMEWORK = {
         'knox.auth.TokenAuthentication',
     ),
     'DEFAULT_PERMISSION_CLASSES':(
-        'rest_framework.permissions.AllowAny',
+        'rest_framework.permissions.IsAuthenticated',
     ),
 
     #Rate Limiting
     'DEFAULT_THROTTLE_CLASSES': [
         'rest_framework.throttling.AnonRateThrottle',
-        'rest_framework.throttling.UserRateThrottle'
-    ],
+        'rest_framework.throttling.UserRateThrottle',
+        ],
     'DEFAULT_THROTTLE_RATES': {
-        'anon': '100/day',
-        'user': '1000/day'
+        'anon': '100/minute',
+        'anon_register_url': '1/day',
+        'anon_login': '100/minute',
+
+        'user': '100/minute',
+        'developer_register_url': '100/minute',
+        'common_register_url':'10/minute',
     },
+    
     #Pagiination 
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 10,
@@ -73,9 +79,9 @@ REST_FRAMEWORK = {
 REST_KNOX = {
     'SECURE_HASH_ALGORITHM': 'cryptography.hazmat.primitives.hashes.SHA512',
     'AUTH_TOKEN_CHARACTER_LENGTH': 64,
-    'TOKEN_TTL': timedelta(hours=10),
+    'TOKEN_TTL': timedelta(hours=1),
     'USER_SERIALIZER': 'knox.serializers.UserSerializer',
-    'TOKEN_LIMIT_PER_USER': 10,
+    'TOKEN_LIMIT_PER_USER': 100,
     'AUTO_REFRESH': True
 }
 
@@ -95,24 +101,13 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+#Cors configuration
 CORS_ALLOW_ALL_ORIGINS = True
-
-# CSRF_TRUSTED_ORIGINS = [
-#     'yaus-334b4.web.app',
-# ]
-# CSRF_COOKIE_DOMAIN = [
-#     'yaus-334b4.web.app'
-# ]
-
 CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOW_HEADERS  = [
     'X-CSRFTOKEN'
 ]
-
-
-
 CSRF_COOKIE_NAME = 'X-CSRFTOKEN'
-
 
 
 ROOT_URLCONF = 'YAUS.urls'

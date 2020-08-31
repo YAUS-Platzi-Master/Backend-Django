@@ -34,6 +34,11 @@ from authKnox.serializers import ListTokenSerializer, TokenProfile
 #model
 from knox.models import AuthToken
 from authKnox.models import TokenProfile
+
+#throttle
+from api.throttles import AnonLoginUrlThrottle
+
+
 class ListTokenProfileView(APIView):
     """ List all token for the authenticated user"""
 
@@ -58,7 +63,7 @@ class ListTokenProfileView(APIView):
 class LoginView(LoginView):
     """Login View"""
     permission_classes = [AllowAny]
-
+    throttle_classes  = [AnonLoginUrlThrottle]
     # @ensure_csrf_cookie
     # @csrf_exempt
     def post(self, request, format=None):
