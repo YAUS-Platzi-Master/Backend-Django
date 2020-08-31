@@ -1,16 +1,92 @@
-## Backend-Django
-In this repository you will find all the information for the Yaus API
 
-## Deployed on heroku
-Follow the next link to see the project:
+# Yaus Project - API Repository
 
-[](https://yaus-api.herokuapp.com/)
+> In this repository you will find the documentation about the API behind the YAUS Project
+
+> Yaus is a website that allows you to shorten urls, capture statistics, register / log users, among others
+
+## Table of Contents
+
+- [Installation](#Installation)
+- [Deploy](#Deploy)
+- [Features](#Features)
+- [Documentation](#Documentation)
+- [Team](#Team)
 
 
 
+## Installation
+
+- All the API is build in python
+
+### Clone
+
+- Clone this repo to your local machine using `git@github.com:YAUS-Platzi-Master/Backend-Django.git`
+
+### Setup
+Create a virtual enviorment and install all requirements
+
+```shell
+$ pip3 install -r requirements.txt
+```
+
+Should look like this:
+
+```shell
+├── Procfile
+├── README.md
+├── YAUS
+│   ├── __init__.py
+│   ├── asgi.py
+│   ├── settings.py
+│   ├── urls.py
+│   └── wsgi.py
+├── api
+│   ├── __init__.py
+│   ├── admin.py
+│   ├── apps.py
+│   ├── migrations
+│   ├── models.py
+│   ├── serializers.py
+│   ├── tests.py
+│   ├── throttles.py
+│   ├── urls.py
+│   └── views.py
+├── api_analytics
+│   ├── __init__.py
+│   ├── admin.py
+│   ├── apps.py
+│   ├── migrations
+│   ├── mixins.py
+│   ├── models.py
+│   ├── serializers.py
+│   └── tests.py
+├── authKnox
+│   ├── __init__.py
+│   ├── admin.py
+│   ├── apps.py
+│   ├── migrations
+│   ├── models.py
+│   ├── serializers.py
+│   ├── tests.py
+│   ├── urls.py
+│   └── views.py
+├── manage.py
+├── requirements.txt
+├── staticfiles
+└── venv
+```
+
+## Deploy
+We user Heroku to deploy the app, tou can look in the following link:
+
+# [](https://yaus-api.herokuapp.com/)
+
+
+## Features
 
 ## Token Authentication
-### We decide use authentication via token for the API Yaus.
+We decide use authentication via token for the API Yaus.
 
 ### How to generate a token?
 
@@ -290,4 +366,8 @@ It is allowed to create a short url per day and it is not possible to consult an
 Authenticated users have greater access to the API, they can create up to 10 short_urls per minute and consult any statistics without exceeding a maximum of 100 requests per minute.
 
 Additionally, the use of the API for developers is allowed, in which case they can create up to 100 shor_urls per minute
+
+
+# Documentation
+You can see more about the documentation <a href="https://documenter.getpostman.com/view/12460085/TVCcYA1E" target="_blank">here</a> 
 
