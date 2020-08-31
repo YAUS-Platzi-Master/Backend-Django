@@ -37,7 +37,9 @@ from secrets import token_urlsafe
 #throttle
 from api.throttles import AnonRegisterUrlThrottle, UserRegisterUrlThrottle
 
-class RegisterUserView(generics.CreateAPIView):
+#Api Analitics
+from api_analytics.mixins import LoggingMixin
+class RegisterUserView(LoggingMixin, generics.CreateAPIView):
     """ Register a new user"""
     permission_classes = [AllowAny]
     serializer_class = UserSerializer
@@ -65,7 +67,7 @@ class RegisterUserView(generics.CreateAPIView):
         return Response(data=data,status=status.HTTP_201_CREATED)
         
 
-class RegisterNewUrlView(generics.CreateAPIView):
+class RegisterNewUrlView(LoggingMixin,generics.CreateAPIView):
     """Register a new shor url"""
     permission_classes = [AllowAny]
     serializer_class = SetUrlSerializer
@@ -135,7 +137,7 @@ class RegisterNewUrlView(generics.CreateAPIView):
 
     
 
-class UserViewSet(generics.ListAPIView):
+class UserViewSet(LoggingMixin,generics.ListAPIView):
     """API endpoint for User"""
     
     def get_queryset(self):
@@ -156,7 +158,7 @@ class UserViewSet(generics.ListAPIView):
 
         return Response(data=data,status=status.HTTP_200_OK)
 
-class UserHitsViewSet(generics.ListAPIView):
+class UserHitsViewSet(LoggingMixin,generics.ListAPIView):
     """class for read all hits for a user"""
     def get_queryset(self):
         return Hit.objects.filter(set_url_id__user_id__username=self.request.user.username)
@@ -179,7 +181,7 @@ class UserHitsViewSet(generics.ListAPIView):
         return Response(data=data, status=status.HTTP_200_OK)
 
 
-class SetUrlViewSet(viewsets.ModelViewSet):
+class SetUrlViewSet(LoggingMixin,viewsets.ModelViewSet):
     """ Api Endpoint for set of Url"""
     serializer_class = SetUrlSerializer
     
@@ -205,7 +207,7 @@ class SetUrlViewSet(viewsets.ModelViewSet):
 
     
 
-class HitViewset(viewsets.ModelViewSet):
+class HitViewset(LoggingMixin,viewsets.ModelViewSet):
     """ Api Endpoint for hits of users"""
     # queryset = Hit.objects.all()
     serializer_class = HitSerializer

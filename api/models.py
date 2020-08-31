@@ -25,11 +25,22 @@ class UserProfile(models.Model):
 class SetUrl(models.Model):
     """model for the information that relates short and log URL"""    
     #Id of user
-    user_id = models.ForeignKey(User, related_name= 'set_url',on_delete=models.CASCADE, default=None,null=True)
+    user_id = models.ForeignKey(
+        User, 
+        related_name= 'set_url',
+        on_delete=models.CASCADE, 
+        default=None,null=True
+    )
     
     #Set of urls
     long_url = models.URLField(max_length=200)
-    short_url = models.CharField(max_length=50, null=True, unique = True)
+    short_url = models.CharField(
+        max_length=50, 
+        null=True, 
+        unique = True
+
+
+)
     
     #Timestamps
     created = models.DateTimeField(auto_now_add=True)

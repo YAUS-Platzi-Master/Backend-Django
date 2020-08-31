@@ -13,7 +13,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'ndds9!(0@qr!g^8$4ifcbnyiaumlx^(1q!62ko#s6d12ts2eqj'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True    
 
 ALLOWED_HOSTS = [ '*'
 ]
@@ -40,8 +40,8 @@ INSTALLED_APPS = [
     'authKnox',
     #cors handling
     'corsheaders',
-    #api analitics
-    'rest_framework_tracking',
+    #Api Analytics
+    'api_analytics',
 ]
 
 REST_FRAMEWORK = {

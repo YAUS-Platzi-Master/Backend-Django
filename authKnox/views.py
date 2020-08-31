@@ -38,8 +38,10 @@ from authKnox.models import TokenProfile
 #throttle
 from api.throttles import AnonLoginUrlThrottle
 
+#API Analytics
+from api_analytics.mixins import LoggingMixin    
 
-class ListTokenProfileView(APIView):
+class ListTokenProfileView(LoggingMixin,APIView):
     """ List all token for the authenticated user"""
 
     permission_classes = [IsAuthenticated]
@@ -60,7 +62,7 @@ class ListTokenProfileView(APIView):
 
 
 @method_decorator(csrf_exempt,name='post')
-class LoginView(LoginView):
+class LoginView(LoggingMixin,LoginView):
     """Login View"""
     permission_classes = [AllowAny]
     throttle_classes  = [AnonLoginUrlThrottle]
@@ -128,7 +130,7 @@ class LoginView(LoginView):
         return data
 
 
-class LogoutView(LogoutView):
+class LogoutView(LoggingMixin,LogoutView):
     """logout all view"""
     permission_classes = [IsAuthenticated,]
     
@@ -147,7 +149,7 @@ class LogoutView(LogoutView):
         return Response(data=data,status=status.HTTP_200_OK)
 
 
-class LogoutAllView(LogoutAllView):
+class LogoutAllView(LoggingMixin,LogoutAllView):
     """logout all view"""
     permission_classes = [IsAuthenticated,]
 
