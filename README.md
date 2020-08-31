@@ -1,18 +1,90 @@
-## Backend-Django
-In this repository you will find all the information for the Yaus API
 
-## Deployed on heroku
-Follow the next link to see the project:
+# Yaus Project - API Repository
 
-[](https://yaus-api.herokuapp.com/)
+> In this repository you will find the documentation about the API behind the YAUS Project
 
-## Installation
+> Yaus is a website that allows you to shorten urls, capture statistics, register / log users, among others
+
+# Table of Contents
+
+- [Installation](#Installation)
+- [Deploy](#Deploy)
+- [Features](#Features)
+- [Documentation](#Documentation)
+- [Team](#Team)
 
 
 
+# Installation
+
+- All the API is build in python
+
+### Clone
+
+- Clone this repo to your local machine using `git@github.com:YAUS-Platzi-Master/Backend-Django.git`
+
+### Setup
+Create a virtual enviorment and install all requirements
+
+```shell
+$ pip3 install -r requirements.txt
+```
+
+Should look like this:
+
+```shell
+├── Procfile
+├── README.md
+├── YAUS
+│   ├── __init__.py
+│   ├── asgi.py
+│   ├── settings.py
+│   ├── urls.py
+│   └── wsgi.py
+├── api
+│   ├── __init__.py
+│   ├── admin.py
+│   ├── apps.py
+│   ├── migrations
+│   ├── models.py
+│   ├── serializers.py
+│   ├── tests.py
+│   ├── throttles.py
+│   ├── urls.py
+│   └── views.py
+├── api_analytics
+│   ├── __init__.py
+│   ├── admin.py
+│   ├── apps.py
+│   ├── migrations
+│   ├── mixins.py
+│   ├── models.py
+│   ├── serializers.py
+│   └── tests.py
+├── authKnox
+│   ├── __init__.py
+│   ├── admin.py
+│   ├── apps.py
+│   ├── migrations
+│   ├── models.py
+│   ├── serializers.py
+│   ├── tests.py
+│   ├── urls.py
+│   └── views.py
+├── manage.py
+├── requirements.txt
+├── staticfiles
+└── venv
+```
+
+# Deploy
+We user Heroku to deploy the app, tou can look in the following link:
+<a href="https://yaus-api.herokuapp.com/api/1.0/register/new_url" target="_blank">https://yaus-api.herokuapp.com/api/1.0/register/new_url</a>
+
+# Features
 
 ## Token Authentication
-### We decide use authentication via token for the API Yaus.
+We decide use authentication via token for the API Yaus.
 
 ### How to generate a token?
 
@@ -75,9 +147,9 @@ Remember that you must send in the body the params
 The custom url is only avaliable for Authenticated users via token.
 
 
-### How to know my resources?
+## How to know my resources?
 
-## How to know my user details?
+### How to know my user details?
 Send a get request to the endpoint
 
 ```bash
@@ -100,7 +172,7 @@ http://yaus-api.herokuap.com/api/1.0/user
 ```
 
 
-## How to know my sets of urls in the system?
+### How to know my sets of urls in the system?
 Send a get request to the endpoint
 
 ```bash
@@ -159,7 +231,7 @@ http://yaus-api.herokuap.com/api/1.0/set_of_urls/2/
 ```
 
 
-## How to know my hits?
+### How to know my hits?
 
 To know all the hits for my user send a get request like:
 ```bash
@@ -279,17 +351,24 @@ Remember that you must send in the body the params
 ```
 
 
-### How we handle the number of requests?
+## How we handle the number of requests?
 Depending on the role in the system, the allowed requests are calculated
 
-## Anonymous Users
+### Anonymous Users
 
 Anonymous users have limited access to the API.
 It is allowed to create a short url per day and it is not possible to consult any related statistics
 
-## Authenticated Users
+### Authenticated Users
 
 Authenticated users have greater access to the API, they can create up to 10 short_urls per minute and consult any statistics without exceeding a maximum of 100 requests per minute.
 
 Additionally, the use of the API for developers is allowed, in which case they can create up to 100 shor_urls per minute
 
+
+# Documentation
+You can see more about the documentation <a href="https://documenter.getpostman.com/view/12460085/TVCcYA1E" target="_blank">here</a> 
+
+# About the Team
+
+You can see more about the team <a href="https://www.notion.so/About-us-17978bd2685642aa96778d13bf098d1f" target="_blank">here</a> 
