@@ -13,7 +13,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'ndds9!(0@qr!g^8$4ifcbnyiaumlx^(1q!62ko#s6d12ts2eqj'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = True    
 
 ALLOWED_HOSTS = [ '*'
 ]
@@ -32,19 +32,16 @@ INSTALLED_APPS = [
     #Djangorest-Framework
     'rest_framework',
     'rest_framework.authtoken',
-
     #apps created
     'api',
-
     #knox auth
     'knox',
-
     #authKnox
     'authKnox',
-
     #cors handling
     'corsheaders',
-
+    #Api Analytics
+    'api_analytics',
 ]
 
 REST_FRAMEWORK = {

@@ -6,8 +6,6 @@ Follow the next link to see the project:
 
 [](https://yaus-api.herokuapp.com/)
 
-## Installation
-
 
 
 
