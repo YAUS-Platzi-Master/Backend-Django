@@ -5,7 +5,7 @@
 
 > Yaus is a website that allows you to shorten urls, capture statistics, register / log users, among others
 
-## Table of Contents
+# Table of Contents
 
 - [Installation](#Installation)
 - [Deploy](#Deploy)
@@ -15,7 +15,7 @@
 
 
 
-## Installation
+# Installation
 
 - All the API is build in python
 
@@ -77,13 +77,11 @@ Should look like this:
 └── venv
 ```
 
-## Deploy
+# Deploy
 We user Heroku to deploy the app, tou can look in the following link:
+<a href="https://yaus-api.herokuapp.com/api/1.0/register/new_url" target="_blank">https://yaus-api.herokuapp.com/api/1.0/register/new_url</a>
 
-# [](https://yaus-api.herokuapp.com/)
-
-
-## Features
+# Features
 
 ## Token Authentication
 We decide use authentication via token for the API Yaus.
@@ -149,9 +147,9 @@ Remember that you must send in the body the params
 The custom url is only avaliable for Authenticated users via token.
 
 
-### How to know my resources?
+## How to know my resources?
 
-## How to know my user details?
+### How to know my user details?
 Send a get request to the endpoint
 
 ```bash
@@ -174,7 +172,7 @@ http://yaus-api.herokuap.com/api/1.0/user
 ```
 
 
-## How to know my sets of urls in the system?
+### How to know my sets of urls in the system?
 Send a get request to the endpoint
 
 ```bash
@@ -233,7 +231,7 @@ http://yaus-api.herokuap.com/api/1.0/set_of_urls/2/
 ```
 
 
-## How to know my hits?
+### How to know my hits?
 
 To know all the hits for my user send a get request like:
 ```bash
@@ -353,15 +351,15 @@ Remember that you must send in the body the params
 ```
 
 
-### How we handle the number of requests?
+## How we handle the number of requests?
 Depending on the role in the system, the allowed requests are calculated
 
-## Anonymous Users
+### Anonymous Users
 
 Anonymous users have limited access to the API.
 It is allowed to create a short url per day and it is not possible to consult any related statistics
 
-## Authenticated Users
+### Authenticated Users
 
 Authenticated users have greater access to the API, they can create up to 10 short_urls per minute and consult any statistics without exceeding a maximum of 100 requests per minute.
 
