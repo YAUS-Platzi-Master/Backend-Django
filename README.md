@@ -369,3 +369,6 @@ Additionally, the use of the API for developers is allowed, in which case they c
 # Documentation
 You can see more about the documentation <a href="https://documenter.getpostman.com/view/12460085/TVCcYA1E" target="_blank">here</a> 
 
+# About the Team
+
+You can see more about the documentation <a href="https://www.notion.so/About-us-17978bd2685642aa96778d13bf098d1f" target="_blank">here</a> 
