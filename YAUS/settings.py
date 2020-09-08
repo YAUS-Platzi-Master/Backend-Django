@@ -84,13 +84,12 @@ REST_KNOX = {
 
 
 MIDDLEWARE = [
+    #cors manage
+    'corsheaders.middleware.CorsMiddleware',
+    
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
-    
-    #cors manage
-    'corsheaders.middleware.CorsMiddleware',
-
     'django.middleware.common.CommonMiddleware',
         
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -99,12 +98,8 @@ MIDDLEWARE = [
 ]
 
 #Cors configuration
-CORS_ALLOW_ALL_ORIGINS = True
+CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
-CORS_ALLOW_HEADERS  = [
-    'X-CSRFTOKEN'
-]
-CSRF_COOKIE_NAME = 'X-CSRFTOKEN'
 
 
 ROOT_URLCONF = 'YAUS.urls'
