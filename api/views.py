@@ -184,11 +184,9 @@ class UserHitsViewSet(LoggingMixin,generics.ListAPIView):
 class SetUrlViewSet(LoggingMixin,viewsets.ModelViewSet):
     """ Api Endpoint for set of Url"""
     serializer_class = SetUrlSerializer
-    permission_classes = [AllowAny] #For testing
     
     def get_queryset(self):
-        return SetUrl.objects.all()
-        # return SetUrl.objects.filter(user_id__username=self.request.user.username)
+        return SetUrl.objects.filter(user_id__username=self.request.user.username)
     
     def list(self, request, pk=None):
         """Returns only the set_urls for the user authenticated"""
