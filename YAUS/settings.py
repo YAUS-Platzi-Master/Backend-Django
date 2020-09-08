@@ -84,13 +84,12 @@ REST_KNOX = {
 
 
 MIDDLEWARE = [
+    #cors manage
+    'corsheaders.middleware.CorsMiddleware',
+    
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
-    
-    #cors manage
-    'corsheaders.middleware.CorsMiddleware',
-
     'django.middleware.common.CommonMiddleware',
         
     'django.contrib.auth.middleware.AuthenticationMiddleware',
