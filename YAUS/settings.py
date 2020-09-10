@@ -5,26 +5,16 @@ import os
 import django_heroku
 from datetime import timedelta
 
-# from common.settings import Env
-root = environ.Path(__file__) # get root of the projec
-
 env = environ.Env()
 
 environ.Env.read_env() # reading .env file
 
-SITE_ROOT = root()
-
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
 
 # Raises django's ImproperlyConfigured exception if SECRET_KEY not in os.environ
 SECRET_KEY = env.str('SECRET_KEY')
 
-
 DEBUG = env.bool('DEBUG', default=False)
-
-
 
 ALLOWED_HOSTS = [ '*' ]
 
@@ -166,8 +156,8 @@ USE_TZ = True
 
 
 # Static files (CSS, JavaScript, Images)
-public_root = root.path()
-STATIC_URL = env.str('STATIC_URL', default='static/')
-STATIC_ROOT = public_root('staticfiles')
+
+STATIC_URL = env.str('STATIC_URL', default='/static/')
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 django_heroku.settings(locals())
