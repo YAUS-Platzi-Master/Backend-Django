@@ -1,22 +1,25 @@
 """ Settings of YAUS Project"""
-from pathlib import Path
+import environ
+# from pathlib import Path
 import os
 import django_heroku
 from datetime import timedelta
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
+
+#Parth of root dir
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
+env = environ.Env()
+env_file = os.path.join(BASE_DIR, ".env") #path of .env file
+environ.Env.read_env(env_file) # reading .env file
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'ndds9!(0@qr!g^8$4ifcbnyiaumlx^(1q!62ko#s6d12ts2eqj'
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True    
 
-ALLOWED_HOSTS = [ '*'
-]
+# Raises django's ImproperlyConfigured exception if SECRET_KEY not in os.environ
+SECRET_KEY = env.str('SECRET_KEY')
+
+DEBUG = env.bool('DEBUG', default=False)
+
+ALLOWED_HOSTS = [ '*' ]
 
 # Application definition
 
@@ -123,25 +126,10 @@ TEMPLATES = [
 WSGI_APPLICATION = 'YAUS.wsgi.application'
 
 
-# Database
-# https://docs.djangoproject.com/en/3.1/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'd1q7fco1bj2t7k',
-        'USER': 'bzkcnoarxfnwoy',
-        'PASSWORD': '844e218b3a5c3baaf1802567961a80d6e4c8e31b5870bc03ef8d58014fb362a1',
-        'HOST':'ec2-107-20-104-234.compute-1.amazonaws.com',
-        'PORT':'5432',
-        'CONN_MAX_AGE': 10,
-    }
-}
+DATABASES = {'default': env.db('DATABASE_URL')} #Read database in env
 
 
 # Password validation
-# https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
-
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -157,9 +145,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
-# https://docs.djangoproject.com/en/3.1/topics/i18n/
 
 LANGUAGE_CODE = 'en-us'
 
@@ -173,7 +159,6 @@ USE_TZ = True
 
 
 # Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
