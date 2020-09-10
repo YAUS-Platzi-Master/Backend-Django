@@ -1,6 +1,5 @@
 """ Settings of YAUS Project"""
 import environ
-# from pathlib import Path
 import os
 import django_heroku
 from datetime import timedelta
@@ -11,8 +10,6 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 env = environ.Env()
 env_file = os.path.join(BASE_DIR, ".env") #path of .env file
 environ.Env.read_env(env_file) # reading .env file
-
-
 
 # Raises django's ImproperlyConfigured exception if SECRET_KEY not in os.environ
 SECRET_KEY = env.str('SECRET_KEY')
