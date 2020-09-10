@@ -166,7 +166,7 @@ USE_TZ = True
 
 
 # Static files (CSS, JavaScript, Images)
-public_root = root.path('public/')
+public_root = root.path()
 STATIC_URL = env.str('STATIC_URL', default='static/')
 STATIC_ROOT = public_root('staticfiles')
 
