@@ -10,6 +10,17 @@ class ApiAnalyticsSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ApiAnalytics
-        fields = '__all__'
+        fields = [
+            'id', 
+            'requested_at', 
+            'response_ms', 
+            'status_code',
+            'user_id', 
+            'method',
+            'path', 
+            'remote_addr', 
+            'host',
+            'query_params'
+        ]
 
 
