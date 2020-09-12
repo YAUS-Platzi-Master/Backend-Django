@@ -7,5 +7,5 @@ from django.urls import path
 from api_analytics.views import ApiAnalyticsViewSet
 
 urlpatterns = [
-    path('', ApiAnalyticsViewSet),
+    path('', ApiAnalyticsViewSet.as_view()),
 ] 
