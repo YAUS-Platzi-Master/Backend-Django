@@ -125,7 +125,7 @@ class LoginView(LoggingMixin,LoginView):
         data['headers'] = {
                             'user_agent':token_profile.user_agent,
                             'Host':token_profile.Host,
-                            # 'Cookie':token_profile.Cookie,
+                            'Cookie':token_profile.Cookie,
                         }
         return data
 
