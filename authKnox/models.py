@@ -15,9 +15,9 @@ class TokenProfile(models.Model):
     token = models.OneToOneField(AuthToken, related_name='token_profile', on_delete=models.CASCADE,unique = True)
     
     #Extra data for user Profile
-    user_agent = models.CharField(max_length=100,null=True)
+    user_agent = models.CharField(max_length=1000,null=True)
     Host = models.CharField(max_length=100,null=True)
-    Cookie = models.CharField(max_length=1000,null=True)
+    name_token = models.CharField(max_length=1000,null=True)
 
     class Meta:
         ordering = ('Host',)
