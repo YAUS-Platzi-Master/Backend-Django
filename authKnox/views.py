@@ -34,6 +34,7 @@ from authKnox.serializers import ListTokenSerializer, TokenProfile
 #model
 from knox.models import AuthToken
 from authKnox.models import TokenProfile
+from django.contrib.auth.models import User
 
 #throttle
 from api.throttles import AnonLoginUrlThrottle
@@ -66,8 +67,8 @@ class LoginView(LoggingMixin,LoginView):
     """Login View"""
     permission_classes = [AllowAny]
     throttle_classes  = [AnonLoginUrlThrottle]
-    # @ensure_csrf_cookie
-    # @csrf_exempt
+
+
     def post(self, request, format=None):
         """Post a Login"""
         serializer = AuthTokenSerializer(data= request.data)
@@ -90,18 +91,19 @@ class LoginView(LoggingMixin,LoginView):
         instance, token = AuthToken.objects.create(request.user, token_ttl)
         
         user_logged_in.send(
-                            sender=request.user.__class__,
-                            request=request, 
-                            user=request.user
-                        )
+            sender=request.user.__class__,
+            request=request, 
+            user=request.user
+        )
 
         #Set the information of user for identify the source of token
         token_profile = TokenProfile(
-                                token=instance,
-                                user_agent= request.headers.get('user-agent'),
-                                Host=request.headers.get('host'),
-                                name_token=request.headers.get('name_token'),                  
-                                )
+            token=instance,
+            user_agent= request.headers.get('user-agent'),
+            Host=request.headers.get('host'),
+            name_token=request.headers.get('name_token'),                  
+        )
+
         token_profile.save()
         data = self.get_post_response_data(request, token, instance,token_profile)
         
@@ -123,10 +125,11 @@ class LoginView(LoggingMixin,LoginView):
             ).data
 
         data['token_profile'] = {
-                            'name_token':token_profile.name_token,
-                            'user_agent':token_profile.user_agent,
-                            'Host':token_profile.Host,                            
-                        }
+            'name_token':token_profile.name_token,
+            'user_agent':token_profile.user_agent,
+            'Host':token_profile.Host,                            
+        }
+
         return data
 
 
@@ -137,8 +140,11 @@ class LogoutView(LoggingMixin,LogoutView):
     def post(self, request, format=None):
         """post a logout all"""
         request._auth.delete()
-        user_logged_out.send(sender=request.user.__class__,
-                            request=request, user=request.user)
+        user_logged_out.send(
+            sender=request.user.__class__,
+            request=request, 
+            user=request.user
+        )
         
         data = {}
         data['Response'] = 'Logout Succesfully'
@@ -157,8 +163,11 @@ class LogoutAllView(LoggingMixin,LogoutAllView):
         """post a logout all"""
         data_source = request.headers
         request.user.auth_token_set.all().delete()
-        user_logged_out.send(sender=request.user.__class__,
-                            request=request, user=request.user)
+        user_logged_out.send(
+            sender=request.user.__class__,
+            request=request, 
+            user=request.user
+        )
 
         data = {}
         data['Response'] = 'Logout Succesfully'
@@ -166,6 +175,3 @@ class LogoutAllView(LoggingMixin,LogoutAllView):
         data['User']= request.user.username 
         
         return Response(data=data, status=status.HTTP_200_OK)
-
-
-

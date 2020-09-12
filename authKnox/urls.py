@@ -7,8 +7,6 @@ from django.urls import path, include
 from authKnox.views import LoginView,LogoutView, LogoutAllView
 from authKnox.views import ListTokenProfileView
 
-
-
 urlpatterns = [
     path('login/', LoginView.as_view(), name = 'knox_login' ),
     path('logout/', LogoutView.as_view(), name = 'knox_logout' ),
