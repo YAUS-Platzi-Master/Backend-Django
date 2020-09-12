@@ -18,6 +18,7 @@ urlpatterns = [
     path('register/new_url',views.RegisterNewUrlView.as_view()),
     path('register/user',views.RegisterUserView.as_view()),
     path('user/', views.UserViewSet.as_view()),
+    path('user/change_password/', views.ChangePasswordView.as_view(), name = 'change_password' ),  
     path('user/hits', views.UserHitsViewSet.as_view()),
     path('analytics/', include(api_analytics_urls)),
     path('', include(router.urls)),
