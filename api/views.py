@@ -77,7 +77,7 @@ class RegisterNewUrlView(LoggingMixin,generics.CreateAPIView):
         #register a new set of urls
 
         request.data['status'] = 'Active'
-
+        
 
         patron = re.compile(r'/^\/[a-z0-9\-]+$/i')
 
@@ -99,14 +99,18 @@ class RegisterNewUrlView(LoggingMixin,generics.CreateAPIView):
                     
                     if 'short_url_custom' in request.data:
 
-                        if re.search(r'^[a-z0-9-]+$',request.data['short_url_custom']) == None: #check if has the characters allowed
-                            data['Response'] = 'short_url_custom invalid. Only accept letters, numbers or guion'
-                            return Response(data=data,status=status.HTTP_400_BAD_REQUEST) 
+                        if  not SetUrl.objects.filter(short_url=request.data['short_url_custom']): #check if the short_url_custom don't exists
+                            
+                            if re.search(r'^[a-z0-9-]+$',request.data['short_url_custom']) != None: #check if has the characters allowed
+                                new_set_url.short_url = request.data['short_url_custom']
+                                data['Response'] = 'Register new custom url for authenticated User'
 
+                            else:
+                                data['Response'] = 'short_url_custom invalid. Only accept letters, numbers or guion'
+                                return Response(data=data,status=status.HTTP_400_BAD_REQUEST)                         
                         else:
-                            new_set_url.short_url = request.data['short_url_custom']
-                            data['Response'] = 'Register new custom url for authenticated User'
-                    
+                            data['Response'] = 'short_url_custom already exists. Try another'
+                            return Response(data=data,status=status.HTTP_200_OK)                             
                     else:
                         data['Response'] = 'Not registed. Must pass a short_url_custom'
                         return Response(data=data,status=status.HTTP_401_UNAUTHORIZED) 
