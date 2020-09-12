@@ -19,3 +19,4 @@ class ListTokenSerializer(serializers.ModelSerializer):
                 'expiry',
                 'token_profile',
                 ]
+

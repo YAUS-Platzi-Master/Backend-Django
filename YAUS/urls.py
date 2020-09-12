@@ -9,12 +9,7 @@ from api import urls as api_urls
 
 #urls from knox
 from authKnox import urls as authKnox_urls
-#Utilities Rest-framework
-#from api.views  import CustomAuthToken
 
-#Knox Views
-from knox import views as knox_views
-from authKnox.views import LoginView   
 
 
 urlpatterns = [

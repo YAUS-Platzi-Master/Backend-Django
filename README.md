@@ -1,4 +1,3 @@
-
 # Yaus Project - API Repository
 
 > In this repository you will find the documentation about the API behind the YAUS Project
@@ -23,16 +22,10 @@
 
 - Clone this repo to your local machine using `git@github.com:YAUS-Platzi-Master/Backend-Django.git`
 
-### Setup
-Create a virtual enviorment and install all requirements
+### Should look like this:
 
 ```shell
-$ pip3 install -r requirements.txt
-```
-
-Should look like this:
-
-```shell
+├── Dockerfile
 ├── Procfile
 ├── README.md
 ├── YAUS
@@ -42,7 +35,6 @@ Should look like this:
 │   ├── urls.py
 │   └── wsgi.py
 ├── api
-│   ├── __init__.py
 │   ├── admin.py
 │   ├── apps.py
 │   ├── migrations
@@ -53,7 +45,6 @@ Should look like this:
 │   ├── urls.py
 │   └── views.py
 ├── api_analytics
-│   ├── __init__.py
 │   ├── admin.py
 │   ├── apps.py
 │   ├── migrations
@@ -71,11 +62,39 @@ Should look like this:
 │   ├── tests.py
 │   ├── urls.py
 │   └── views.py
+├── docker-compose.yml
 ├── manage.py
 ├── requirements.txt
 ├── staticfiles
-└── venv
+│   └── base.html
 ```
+
+### Config Enviorment variables
+Configure these enviorment variables:
+- DEBUG: False in production enviorments
+- DATABASE_URL: Parse database connection url strings  <a href="https://django-environ.readthedocs.io/en/latest/#environ-env" target="_blank">More Info</a>
+- SECRET_KEY: Random key for Django. You can use the command `openssl rand -base64 32` in command line as key generator
+
+
+```shell
+#Example
+DEBUG=True
+DATABASE_URL=psql://urser:un-githubbedpassword@127.0.0.1:8458/database
+SECRET_KEY=ndds9!(0@qr!g^8$4ifcbnyiaumlx^(1q!62ko#s6d12ts2eqj
+
+```
+
+### Setup Docker
+Initialize docker container:
+
+```shell
+docker-compose run web python manage.py migrate
+```
+
+```shell
+docker-compose up
+```
+
 
 # Deploy
 We user Heroku to deploy the app, tou can look in the following link:
@@ -116,7 +135,7 @@ In the requests add to headers the token like this:
 
 ```bash
 #Example using httpie
-http GET https://yaus-api.herokuapp.com/api/1.0/user/ 'Authorization: Token 4252a2e9761d9e0f9e166ad112af267341ec3129'
+http GET https://yaus-api.herokuapp.com/api/1.0/user/ 'Authorization: Token fbdb01f7da9d1da5be07bdb496f27701cbb1ac4b8073ad325f8fb794cc045105'
 ```
 
 ## How to create new resources?
@@ -136,7 +155,7 @@ Remember that you must send in the body the params
 - short_url_custom: string for custom url. Only accept number, letters and/or guion. 
 
 ```bash
-#Example of body params
+#Example of body params in requets
 {
     'long_url':'https://www.facebook.com/myprofile',
     'custom_url: true,
@@ -146,6 +165,22 @@ Remember that you must send in the body the params
 ```
 The custom url is only avaliable for Authenticated users via token.
 
+```bash
+#Example of response
+{
+    "Response": "Register new custom url for authenticated User",
+    "register_set": {
+        "id": 1550,
+        "status": "Active",
+        "long_url": "http://www.platzi.com/master",
+        "short_url": "mycustom3",
+        "created": "2020-09-11T04:27:38.132150Z",
+        "total_hits": 0,
+        "hits": []
+    }
+}
+
+```
 
 ## How to know my resources?
 
@@ -154,7 +189,6 @@ Send a get request to the endpoint
 
 ```bash
 http://yaus-api.herokuap.com/api/1.0/user
-
 
 #Example of response
 {
@@ -170,7 +204,6 @@ http://yaus-api.herokuap.com/api/1.0/user
     ]
 }
 ```
-
 
 ### How to know my sets of urls in the system?
 Send a get request to the endpoint
@@ -208,7 +241,7 @@ http://yaus-api.herokuap.com/api/1.0/set_of_urls
 }
 ```
 
-If you want to read a set of url determined, you must add de id of the set
+If you want to read a set of url determined, you must add de id of the set in th url
 
 ```bash
 http://yaus-api.herokuap.com/api/1.0/set_of_urls/{id}
@@ -274,7 +307,7 @@ http://yaus-api.herokuap.com/api/1.0/hits/
 ```
 
 
-If you want to read a hit determined, you must add de id of the hit
+If you want to read a hit determined, you must add de id of the hit in the url
 
 ```bash
 http://yaus-api.herokuap.com/api/1.0/hit/{id}

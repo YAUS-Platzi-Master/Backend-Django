@@ -10,7 +10,6 @@ from django.contrib.auth.models import User
 
 
 class UserSerializer(serializers.ModelSerializer):
-    # user_profile= serializers.StringRelatedField(many=False)
     class Meta:
         model = User
         fields = [
@@ -87,3 +86,13 @@ class HitSerializer(serializers.HyperlinkedModelSerializer):
             'created',
             'id',
         ]
+
+
+class ChangePasswordSerializer(serializers.Serializer):
+    model = User
+
+    """
+    Serializer for password change endpoint.
+    """
+    old_password = serializers.CharField(required=True)
+    new_password = serializers.CharField(required=True)
