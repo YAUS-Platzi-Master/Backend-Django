@@ -17,7 +17,7 @@ class TokenProfile(models.Model):
     #Extra data for user Profile
     user_agent = models.CharField(max_length=1000,null=True)
     Host = models.CharField(max_length=100,null=True)
-    Cookie = models.CharField(max_length=1000,null=True)
+    name_token = models.CharField(max_length=1000,null=True)
 
     class Meta:
         ordering = ('Host',)

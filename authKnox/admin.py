@@ -9,18 +9,16 @@ from authKnox.models import TokenProfile
 class TokenProfileAdmin(admin.ModelAdmin):
     """Profile UserProfile"""
 
-    list_display = ('pk','user_agent', 'Host',  'Cookie')
+    list_display = ('pk','user_agent', 'Host',  'name_token')
     list_display_links = ('pk',)
     
     search_fields = (
         'pk',
-        'user_agent',
-        'Host',
-        'Cookie',
+        'name_token',
     )
 
     list_filter = (
         'user_agent',
         'Host',
-        'Cookie',
+        'name_token',
     )

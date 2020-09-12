@@ -100,7 +100,7 @@ class LoginView(LoggingMixin,LoginView):
                                 token=instance,
                                 user_agent= request.headers.get('user-agent'),
                                 Host=request.headers.get('host'),
-                                Cookie=request.headers.get('Cookie'),                  
+                                name_token=request.headers.get('name_token'),                  
                                 )
         token_profile.save()
         data = self.get_post_response_data(request, token, instance,token_profile)
@@ -122,10 +122,10 @@ class LoginView(LoggingMixin,LoginView):
                 context=self.get_context()
             ).data
 
-        data['headers'] = {
+        data['token_profile'] = {
+                            'name_token':token_profile.name_token,
                             'user_agent':token_profile.user_agent,
-                            'Host':token_profile.Host,
-                            'Cookie':token_profile.Cookie,
+                            'Host':token_profile.Host,                            
                         }
         return data
 
