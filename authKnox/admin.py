@@ -1,28 +1,24 @@
-# from django.contrib import admin
+from django.contrib import admin
 
-# #model
-# from authKnox.models import TokenProfile
+#model
+from authKnox.models import TokenProfile
 
 
 
-# @admin.register(TokenProfile)
-# class TokenProfileAdmin(admin.ModelAdmin):
-#     """Profile UserProfile"""
+@admin.register(TokenProfile)
+class TokenProfileAdmin(admin.ModelAdmin):
+    """Profile UserProfile"""
 
-#     list_display = ('pk','name_token')
-#     list_display_links = ('pk',)
+    list_display = ('pk','user_agent', 'Host',  'name_token')
+    list_display_links = ('pk',)
     
-#     # search_fields = (
-#     #     'user__email',
-#     #     'user__username',
-#     #     'user__first_name',
-#     #     'user__last_name',
-#     #     'phone_number'
-#     # )
+    search_fields = (
+        'pk',
+        'name_token',
+    )
 
-#     # list_filter = (
-#     #     'user__is_active',
-#     #     'user__is_staff',
-#     #     'user__date_joined',
-#     #     'modified',
-#     # )
+    list_filter = (
+        'user_agent',
+        'Host',
+        'name_token',
+    )

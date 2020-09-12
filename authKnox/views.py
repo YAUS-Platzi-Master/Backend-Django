@@ -98,9 +98,9 @@ class LoginView(LoggingMixin,LoginView):
         #Set the information of user for identify the source of token
         token_profile = TokenProfile(
                                 token=instance,
-                                user_agent= request.headers['user-agent'],
-                                Host=request.headers['host'],
-                                Cookie=request.headers['Cookie'],                  
+                                user_agent= request.headers.get('user-agent'),
+                                Host=request.headers.get('host'),
+                                name_token=request.headers.get('name_token'),                  
                                 )
         token_profile.save()
         data = self.get_post_response_data(request, token, instance,token_profile)
@@ -122,10 +122,10 @@ class LoginView(LoggingMixin,LoginView):
                 context=self.get_context()
             ).data
 
-        data['headers'] = {
+        data['token_profile'] = {
+                            'name_token':token_profile.name_token,
                             'user_agent':token_profile.user_agent,
-                            'Host':token_profile.Host,
-                            # 'Cookie':token_profile.Cookie,
+                            'Host':token_profile.Host,                            
                         }
         return data
 
